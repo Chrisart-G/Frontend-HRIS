@@ -5,9 +5,10 @@ function LoginPage() {
     () => ({
       logoSrc: "/Logo.jpg",
       title: "Staff & Admin Login",
+      company: "L'Fisher Hotel",
+      companyDesc: "A Convention & Leisure Hotel",
       subtitle: "Log In to continue",
-      rightTitle: "Staff & Admin Portal",
-      rightDesc: "Use your work email and password to access the system.",
+      rightDesc: "Use your employee no. and password to access the system.",
     }),
     []
   );
@@ -45,7 +46,7 @@ function LoginPage() {
           <div className="bg-[#f5f6f7] px-7 sm:px-10 py-10 sm:py-12">
             <div className="h-full flex flex-col justify-center">
               <div className="flex items-center gap-4">
-                <img src={BRAND.logoSrc} alt="Logo" className="h-24 w-24 object-contain" />
+               
                 <div className="text-left">
                   <h1 className="text-2xl sm:text-[28px] font-semibold text-[#1d1d1d] leading-tight">
                     {BRAND.title}
@@ -168,6 +169,18 @@ function LoginPage() {
                   </svg>
                   Continue with Google
                 </button>
+
+                <div className="pt-8 flex justify-center">
+                  <div className="flex items-center gap-4">
+                    <img src={BRAND.logoSrc} alt="Logo" className="h-24 w-24 object-contain" />
+                    <div className="text-left">
+                      <div className="text-lg font-semibold text-[#1d1d1d] leading-tight">
+                        {BRAND.company}
+                      </div>
+                      <div className="mt-1 text-sm text-[#7a7a7a]">{BRAND.companyDesc}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -197,9 +210,7 @@ function LoginPage() {
               </div>
 
               <div className="mt-10 text-center">
-                <h2 className="text-2xl sm:text-[28px] font-semibold text-[#1d1d1d]">
-                  {BRAND.rightTitle}
-                </h2>
+            
                 <p className="mt-2 text-sm text-[#7a7a7a]">{BRAND.rightDesc}</p>
 
                 <div className="mt-5 flex items-center justify-center gap-2">
