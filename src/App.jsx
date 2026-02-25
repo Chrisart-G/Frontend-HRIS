@@ -1,11 +1,7 @@
+import LoginPage from "./Login/LoginPage";
+
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <h1 className="text-3xl font-bold text-white">
-        HRIS + Tailwind working 🎉
-      </h1>
-    </div>
-  );
+  return <LoginPage />;
 }
 
 export default App;
