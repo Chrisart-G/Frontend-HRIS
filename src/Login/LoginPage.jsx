@@ -7,7 +7,7 @@ function LoginPage() {
       title: "Staff & Admin Login",
       subtitle: "Log In to continue",
       rightTitle: "Staff & Admin Portal",
-      rightDesc: "Use your employee no. and password to access the system.",
+      rightDesc: "Use your work email and password to access the system.",
     }),
     []
   );
@@ -31,18 +31,6 @@ function LoginPage() {
     return () => clearInterval(t);
   }, [SLIDES.length]);
 
-  useEffect(() => {
-    const id = "poppins-font";
-    if (!document.getElementById(id)) {
-      const link = document.createElement("link");
-      link.id = id;
-      link.rel = "stylesheet";
-      link.href =
-        "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap";
-      document.head.appendChild(link);
-    }
-  }, []);
-
   const images = SLIDES[slide];
 
   const onEmployeeNumberChange = (e) => {
@@ -51,7 +39,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#eef1f5] flex items-center justify-center p-4 font-['Poppins']">
+    <div className="min-h-screen bg-[#eef1f5] flex items-center justify-center p-4">
       <div className="w-full max-w-6xl rounded-2xl overflow-hidden bg-white shadow-[0_18px_60px_rgba(0,0,0,0.12)]">
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="bg-[#f5f6f7] px-7 sm:px-10 py-10 sm:py-12">
