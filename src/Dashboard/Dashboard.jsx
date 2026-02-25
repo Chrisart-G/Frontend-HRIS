@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-function Dashboard() {
+function Dashboard({ onLogout }) {
   const BRAND = useMemo(
     () => ({
       logoSrc: "/Logo.jpg",
@@ -218,10 +218,7 @@ function Dashboard() {
     if (name === "gear")
       return (
         <svg {...common} className={className}>
-          <path
-            {...stroke}
-            d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"
-          />
+          <path {...stroke} d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
           <path
             {...stroke}
             d="M19.4 15a7.8 7.8 0 0 0 .1-1 7.8 7.8 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a8.2 8.2 0 0 0-1.7-1l-.4-2.6H9.1L8.7 8a8.2 8.2 0 0 0-1.7 1l-2.4-1-2 3.4L4.6 13a7.8 7.8 0 0 0-.1 1 7.8 7.8 0 0 0 .1 1l-2 1.6 2 3.4 2.4-1a8.2 8.2 0 0 0 1.7 1l.4 2.6h5.8l.4-2.6a8.2 8.2 0 0 0 1.7-1l2.4 1 2-3.4Z"
@@ -305,10 +302,14 @@ function Dashboard() {
     );
   };
 
+  const handleLogout = () => {
+    if (typeof onLogout === "function") onLogout();
+  };
+
   return (
-    <div className="min-h-screen bg-[#eef1f5] p-4">
-      <div className="w-full max-w-295 mx-auto rounded-2xl overflow-hidden bg-white shadow-[0_18px_60px_rgba(0,0,0,0.12)]">
-        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-180">
+    <div className="min-h-screen w-full bg-[#eef1f5]">
+      <div className="min-h-screen w-full bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-screen">
           <aside className="bg-[#e7e0d6] border-r border-[#e2ddd5] p-5 flex flex-col">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-2xl bg-white/60 flex items-center justify-center overflow-hidden">
@@ -346,6 +347,7 @@ function Dashboard() {
             <div className="mt-auto pt-6">
               <button
                 type="button"
+                onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-[#4a4a4a] hover:bg-white/60 cursor-pointer"
               >
                 <Icon name="logout" className="text-[#6b6b6b]" />
@@ -354,7 +356,7 @@ function Dashboard() {
             </div>
           </aside>
 
-          <main className="bg-[#f4f5f7]">
+          <main className="bg-[#f4f5f7] min-h-screen">
             <div className="bg-white px-6 py-4 border-b border-[#ededed]">
               <div className="flex items-center justify-between gap-4">
                 <div className="text-lg font-semibold text-[#2a2a2a]">Dashboard</div>

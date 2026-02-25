@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-function LoginPage() {
+function LoginPage({ onLogin }) {
   const BRAND = useMemo(
     () => ({
       logoSrc: "/Logo.jpg",
@@ -39,6 +39,10 @@ function LoginPage() {
     setEmployeeNumber(next);
   };
 
+  const handleLogin = () => {
+    if (typeof onLogin === "function") onLogin();
+  };
+
   return (
     <div className="min-h-screen bg-[#eef1f5] flex items-center justify-center p-4">
       <div className="w-full max-w-6xl rounded-2xl overflow-hidden bg-white shadow-[0_18px_60px_rgba(0,0,0,0.12)]">
@@ -46,7 +50,6 @@ function LoginPage() {
           <div className="bg-[#f5f6f7] px-7 sm:px-10 py-10 sm:py-12">
             <div className="h-full flex flex-col justify-center">
               <div className="flex items-center gap-4">
-               
                 <div className="text-left">
                   <h1 className="text-2xl sm:text-[28px] font-semibold text-[#1d1d1d] leading-tight">
                     {BRAND.title}
@@ -134,6 +137,7 @@ function LoginPage() {
 
                 <button
                   type="button"
+                  onClick={handleLogin}
                   className="w-full h-11 rounded-full bg-[#8d6a3a] text-white text-sm font-semibold tracking-wide hover:bg-[#7c5d32] active:scale-[0.99] transition cursor-pointer"
                 >
                   Log In
@@ -210,7 +214,6 @@ function LoginPage() {
               </div>
 
               <div className="mt-10 text-center">
-            
                 <p className="mt-2 text-sm text-[#7a7a7a]">{BRAND.rightDesc}</p>
 
                 <div className="mt-5 flex items-center justify-center gap-2">
