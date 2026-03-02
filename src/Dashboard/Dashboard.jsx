@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+import Sidebar from "../Components/Sidebar";
+import Navigation from "../Components/Navigation";
 
 function Dashboard({ onLogout }) {
   const BRAND = useMemo(
@@ -169,76 +171,6 @@ function Dashboard({ onLogout }) {
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
     const stroke = { stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
-    if (name === "grid")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" />
-        </svg>
-      );
-    if (name === "users")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M17 21v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1" />
-          <path {...stroke} d="M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
-          <path {...stroke} d="M22 21v-1a3.5 3.5 0 0 0-2.5-3.35" />
-          <path {...stroke} d="M16.5 3.65A4 4 0 0 1 18 11" />
-        </svg>
-      );
-    if (name === "calendar")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M8 2v4M16 2v4" />
-          <path {...stroke} d="M3 10h18" />
-          <path {...stroke} d="M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" />
-        </svg>
-      );
-    if (name === "bed")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M3 10h18v8H3z" />
-          <path {...stroke} d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" />
-          <path {...stroke} d="M3 18v2M21 18v2" />
-        </svg>
-      );
-    if (name === "chat")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
-        </svg>
-      );
-    if (name === "id")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M4 7h16v14H4z" />
-          <path {...stroke} d="M8 11h8" />
-          <path {...stroke} d="M8 15h6" />
-          <path {...stroke} d="M8 3h8v4H8z" />
-        </svg>
-      );
-    if (name === "gear")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
-          <path
-            {...stroke}
-            d="M19.4 15a7.8 7.8 0 0 0 .1-1 7.8 7.8 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a8.2 8.2 0 0 0-1.7-1l-.4-2.6H9.1L8.7 8a8.2 8.2 0 0 0-1.7 1l-2.4-1-2 3.4L4.6 13a7.8 7.8 0 0 0-.1 1 7.8 7.8 0 0 0 .1 1l-2 1.6 2 3.4 2.4-1a8.2 8.2 0 0 0 1.7 1l.4 2.6h5.8l.4-2.6a8.2 8.2 0 0 0 1.7-1l2.4 1 2-3.4Z"
-          />
-        </svg>
-      );
-    if (name === "search")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M21 21l-4.3-4.3" />
-          <path {...stroke} d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
-        </svg>
-      );
-    if (name === "bell")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-          <path {...stroke} d="M13.7 21a2 2 0 0 1-3.4 0" />
-        </svg>
-      );
     if (name === "ticket")
       return (
         <svg {...common} className={className}>
@@ -271,14 +203,6 @@ function Dashboard({ onLogout }) {
           <path {...stroke} d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
         </svg>
       );
-    if (name === "logout")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M10 17l-1 0a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h1" />
-          <path {...stroke} d="M16 7l5 5-5 5" />
-          <path {...stroke} d="M21 12H10" />
-        </svg>
-      );
     if (name === "plus")
       return (
         <svg {...common} className={className}>
@@ -302,103 +226,14 @@ function Dashboard({ onLogout }) {
     );
   };
 
-  const handleLogout = () => {
-    if (typeof onLogout === "function") onLogout();
-  };
-
   return (
     <div className="min-h-screen w-full bg-[#eef1f5]">
       <div className="min-h-screen w-full bg-white">
         <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-screen">
-          <aside className="bg-[#e7e0d6] border-r border-[#e2ddd5] p-5 flex flex-col">
-            <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-2xl bg-white/60 flex items-center justify-center overflow-hidden">
-                <img src={BRAND.logoSrc} alt="Logo" className="h-10 w-10 object-contain" />
-              </div>
-              <div className="leading-tight">
-                <div className="text-[13px] font-semibold text-[#2a2a2a]">{BRAND.name}</div>
-                <div className="text-[11px] text-[#6b6b6b]">{BRAND.sub}</div>
-              </div>
-            </div>
-
-            <nav className="mt-6 space-y-1">
-              {navItems.map((it) => {
-                const on = it.key === active;
-                return (
-                  <button
-                    key={it.key}
-                    type="button"
-                    onClick={() => setActive(it.key)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition cursor-pointer ${
-                      on
-                        ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
-                        : "text-[#4a4a4a] hover:bg-white/60"
-                    }`}
-                  >
-                    <span className={`${on ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
-                      <Icon name={it.icon} />
-                    </span>
-                    <span className="font-medium">{it.label}</span>
-                  </button>
-                );
-              })}
-            </nav>
-
-            <div className="mt-auto pt-6">
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-[#4a4a4a] hover:bg-white/60 cursor-pointer"
-              >
-                <Icon name="logout" className="text-[#6b6b6b]" />
-                <span className="font-medium">Log Out</span>
-              </button>
-            </div>
-          </aside>
+          <Sidebar brand={BRAND} navItems={navItems} active={active} setActive={setActive} onLogout={onLogout} />
 
           <main className="bg-[#f4f5f7] min-h-screen">
-            <div className="bg-white px-6 py-4 border-b border-[#ededed]">
-              <div className="flex items-center justify-between gap-4">
-                <div className="text-lg font-semibold text-[#2a2a2a]">Dashboard</div>
-
-                <div className="flex items-center gap-4">
-                  <div className="hidden sm:flex items-center gap-2 bg-[#f6f6f6] border border-[#ececec] rounded-full px-4 h-10 w-[320px]">
-                    <Icon name="search" className="text-[#7a7a7a]" />
-                    <input
-                      value={q}
-                      onChange={(e) => setQ(e.target.value)}
-                      placeholder="Search"
-                      className="w-full bg-transparent outline-none text-sm text-[#2a2a2a] placeholder:text-[#9b9b9b]"
-                    />
-                  </div>
-
-                  <div className="hidden md:flex items-center gap-2">
-                    <div className="text-right leading-tight">
-                      <div className="text-sm font-semibold text-[#2a2a2a]">Don Frozae</div>
-                      <div className="text-[11px] text-[#7a7a7a]">Admin</div>
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-[#e7e0d6] flex items-center justify-center text-[#8d6a3a] font-semibold">
-                      DF
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="h-10 w-10 rounded-xl border border-[#ececec] bg-white hover:bg-[#fafafa] grid place-items-center cursor-pointer"
-                    aria-label="Notifications"
-                  >
-                    <Icon name="bell" className="text-[#6b6b6b]" />
-                  </button>
-                  <button
-                    type="button"
-                    className="h-10 w-10 rounded-xl border border-[#ececec] bg-white hover:bg-[#fafafa] grid place-items-center cursor-pointer"
-                    aria-label="Settings"
-                  >
-                    <Icon name="gear" className="text-[#6b6b6b]" />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <Navigation q={q} setQ={setQ} />
 
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -563,7 +398,6 @@ function Dashboard({ onLogout }) {
                     <div className="text-sm font-semibold text-[#2a2a2a]">Booking List</div>
                     <div className="flex items-center gap-2">
                       <div className="hidden sm:flex items-center gap-2 bg-[#f6f6f6] border border-[#ececec] rounded-full px-4 h-9 w-60">
-                        <Icon name="search" className="text-[#7a7a7a]" />
                         <input
                           placeholder="Search"
                           className="w-full bg-transparent outline-none text-sm text-[#2a2a2a] placeholder:text-[#9b9b9b]"
