@@ -4,70 +4,89 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
     const stroke = { stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
+
     if (name === "grid")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" />
+          <path {...stroke} d="M4 4h7v7H4V4Z" />
+          <path {...stroke} d="M13 4h7v7h-7V4Z" />
+          <path {...stroke} d="M4 13h7v7H4v-7Z" />
+          <path {...stroke} d="M13 13h7v7h-7v-7Z" />
         </svg>
       );
+
     if (name === "users")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M17 21v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1" />
-          <path {...stroke} d="M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
-          <path {...stroke} d="M22 21v-1a3.5 3.5 0 0 0-2.5-3.35" />
-          <path {...stroke} d="M16.5 3.65A4 4 0 0 1 18 11" />
+          <path {...stroke} d="M16 19a4 4 0 0 0-8 0" />
+          <path {...stroke} d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" />
+          <path {...stroke} d="M20 19a3.5 3.5 0 0 0-3-3.4" />
+          <path {...stroke} d="M17.5 4.3a4 4 0 0 1 0 7.4" />
         </svg>
       );
+
     if (name === "calendar")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M8 2v4M16 2v4" />
-          <path {...stroke} d="M3 10h18" />
-          <path {...stroke} d="M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" />
+          <path {...stroke} d="M8 3v3M16 3v3" />
+          <path {...stroke} d="M4.5 8.5h15" />
+          <path {...stroke} d="M6 5.5h12a2.5 2.5 0 0 1 2.5 2.5v11A2.5 2.5 0 0 1 18 21.5H6A2.5 2.5 0 0 1 3.5 19V8A2.5 2.5 0 0 1 6 5.5Z" />
+          <path {...stroke} d="M7.5 12h2M11 12h2M14.5 12h2" />
+          <path {...stroke} d="M7.5 15.5h2M11 15.5h2M14.5 15.5h2" />
         </svg>
       );
+
     if (name === "bed")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M3 10h18v8H3z" />
-          <path {...stroke} d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" />
-          <path {...stroke} d="M3 18v2M21 18v2" />
+          <path {...stroke} d="M4 12V7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5V12" />
+          <path {...stroke} d="M4 12h16" />
+          <path {...stroke} d="M4 12v5.5M20 12v5.5" />
+          <path {...stroke} d="M6 10.5h4a1.5 1.5 0 0 1 1.5 1.5V12H4v-0.5A1 1 0 0 1 5 10.5h1Z" />
+          <path {...stroke} d="M13.5 10.5H19a1 1 0 0 1 1 1V12h-6.5v-0.5a1 1 0 0 1 0-1Z" />
         </svg>
       );
+
     if (name === "chat")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
+          <path {...stroke} d="M7.5 18.5H7l-3.5 2v-3A4.5 4.5 0 0 1 8 3.5h8A4.5 4.5 0 0 1 20.5 8v4A4.5 4.5 0 0 1 16 16.5H10" />
+          <path {...stroke} d="M8.5 9.5h7" />
+          <path {...stroke} d="M8.5 12.5h4.5" />
         </svg>
       );
+
     if (name === "id")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 7h16v14H4z" />
-          <path {...stroke} d="M8 11h8" />
-          <path {...stroke} d="M8 15h6" />
-          <path {...stroke} d="M8 3h8v4H8z" />
+          <path {...stroke} d="M6 4.5h12A2.5 2.5 0 0 1 20.5 7v10A2.5 2.5 0 0 1 18 19.5H6A2.5 2.5 0 0 1 3.5 17V7A2.5 2.5 0 0 1 6 4.5Z" />
+          <path {...stroke} d="M8 9h5" />
+          <path {...stroke} d="M8 12.5h8" />
+          <path {...stroke} d="M8 16h6" />
+          <path {...stroke} d="M15.75 9.25h0.01" />
         </svg>
       );
+
     if (name === "gear")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+          <path {...stroke} d="M12 14.75a2.75 2.75 0 1 0 0-5.5 2.75 2.75 0 0 0 0 5.5Z" />
           <path
             {...stroke}
-            d="M19.4 15a7.8 7.8 0 0 0 .1-1 7.8 7.8 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a8.2 8.2 0 0 0-1.7-1l-.4-2.6H9.1L8.7 8a8.2 8.2 0 0 0-1.7 1l-2.4-1-2 3.4L4.6 13a7.8 7.8 0 0 0-.1 1 7.8 7.8 0 0 0 .1 1l-2 1.6 2 3.4 2.4-1a8.2 8.2 0 0 0 1.7 1l.4 2.6h5.8l.4-2.6a8.2 8.2 0 0 0 1.7-1l2.4 1 2-3.4Z"
+            d="M19.4 13.5a7.8 7.8 0 0 0 .06-1.5 7.8 7.8 0 0 0-.06-1.5l2.05-1.6-2-3.46-2.5 1a7.7 7.7 0 0 0-2.6-1.5L12 2.5 9.65 4.94a7.7 7.7 0 0 0-2.6 1.5l-2.5-1-2 3.46 2.05 1.6A7.8 7.8 0 0 0 4.54 12c0 .5.04 1 .1 1.5l-2.05 1.6 2 3.46 2.5-1a7.7 7.7 0 0 0 2.6 1.5L12 21.5l2.35-2.44a7.7 7.7 0 0 0 2.6-1.5l2.5 1 2-3.46-2.05-1.6Z"
           />
         </svg>
       );
+
     if (name === "logout")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M10 17l-1 0a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h1" />
-          <path {...stroke} d="M16 7l5 5-5 5" />
-          <path {...stroke} d="M21 12H10" />
+          <path {...stroke} d="M10 7V6.5A2.5 2.5 0 0 1 12.5 4h5A2.5 2.5 0 0 1 20 6.5v11A2.5 2.5 0 0 1 17.5 20h-5A2.5 2.5 0 0 1 10 17.5V17" />
+          <path {...stroke} d="M4 12h9" />
+          <path {...stroke} d="M7 9l-3 3 3 3" />
         </svg>
       );
+
     return null;
   };
 

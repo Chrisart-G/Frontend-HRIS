@@ -4,30 +4,37 @@ function Navigation({ q, setQ }) {
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
     const stroke = { stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
+
     if (name === "search")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M21 21l-4.3-4.3" />
-          <path {...stroke} d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
+          <path {...stroke} d="M10.5 18.5a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" />
+          <path {...stroke} d="M16.3 16.3 21 21" />
         </svg>
       );
+
     if (name === "bell")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-          <path {...stroke} d="M13.7 21a2 2 0 0 1-3.4 0" />
+          <path
+            {...stroke}
+            d="M18 9.25a6 6 0 1 0-12 0c0 4.2-1.6 5.6-2.5 6.35-.35.29-.5.5-.5.9 0 .9.8 1.5 1.8 1.5h15.4c1 0 1.8-.6 1.8-1.5 0-.4-.15-.61-.5-.9C19.6 14.85 18 13.45 18 9.25Z"
+          />
+          <path {...stroke} d="M9.8 20a2.2 2.2 0 0 0 4.4 0" />
         </svg>
       );
+
     if (name === "gear")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+          <path {...stroke} d="M12 14.75a2.75 2.75 0 1 0 0-5.5 2.75 2.75 0 0 0 0 5.5Z" />
           <path
             {...stroke}
-            d="M19.4 15a7.8 7.8 0 0 0 .1-1 7.8 7.8 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a8.2 8.2 0 0 0-1.7-1l-.4-2.6H9.1L8.7 8a8.2 8.2 0 0 0-1.7 1l-2.4-1-2 3.4L4.6 13a7.8 7.8 0 0 0-.1 1 7.8 7.8 0 0 0 .1 1l-2 1.6 2 3.4 2.4-1a8.2 8.2 0 0 0 1.7 1l.4 2.6h5.8l.4-2.6a8.2 8.2 0 0 0 1.7-1l2.4 1 2-3.4Z"
+            d="M19.4 13.5a7.8 7.8 0 0 0 .06-1.5 7.8 7.8 0 0 0-.06-1.5l2.05-1.6-2-3.46-2.5 1a7.7 7.7 0 0 0-2.6-1.5L12 2.5 9.65 4.94a7.7 7.7 0 0 0-2.6 1.5l-2.5-1-2 3.46 2.05 1.6A7.8 7.8 0 0 0 4.54 12c0 .5.04 1 .1 1.5l-2.05 1.6 2 3.46 2.5-1a7.7 7.7 0 0 0 2.6 1.5L12 21.5l2.35-2.44a7.7 7.7 0 0 0 2.6-1.5l2.5 1 2-3.46-2.05-1.6Z"
           />
         </svg>
       );
+
     return null;
   };
 
