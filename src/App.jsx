@@ -1,11 +1,19 @@
+import React, { useEffect, useState } from "react";
+import LoginPage from "./Login/LoginPage";
+import Dashboard from "./Dashboard/Dashboard";
+
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <h1 className="text-3xl font-bold text-white">
-        HRIS + Tailwind working 🎉
-      </h1>
-    </div>
-  );
+  const [authed, setAuthed] = useState(() => localStorage.getItem("hris_authed") === "1");
+
+  useEffect(() => {
+    if (authed) localStorage.setItem("hris_authed", "1");
+    else localStorage.removeItem("hris_authed");
+  }, [authed]);
+
+  const handleLogin = () => setAuthed(true);
+  const handleLogout = () => setAuthed(false);
+
+  return authed ? <Dashboard onLogout={handleLogout} /> : <LoginPage onLogin={handleLogin} />;
 }
 
 export default App;
