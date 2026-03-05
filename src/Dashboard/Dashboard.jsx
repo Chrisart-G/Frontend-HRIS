@@ -15,135 +15,8 @@ function Dashboard({ onLogout }) {
   const navItems = useMemo(
     () => [
       { key: "dashboard", label: "Dashboard", icon: "grid" },
-      { key: "guest", label: "Guest", icon: "users" },
-      { key: "reservations", label: "Reservations", icon: "calendar" },
-      { key: "rooms", label: "Rooms", icon: "bed" },
       { key: "message", label: "Message", icon: "chat" },
-      { key: "staff", label: "Staff", icon: "id" },
       { key: "setting", label: "Setting", icon: "gear" },
-    ],
-    []
-  );
-
-  const cards = useMemo(
-    () => [
-      { label: "New Bookings", value: "604", trend: "+8.70%", trendUp: true, icon: "ticket" },
-      { label: "Check In", value: "405", trend: "+8.70%", trendUp: true, icon: "in" },
-      { label: "Check Out", value: "333", trend: "-8.70%", trendUp: false, icon: "out" },
-      { label: "Total Revenue", value: "₱13,400,000", trend: "+8.70%", trendUp: true, icon: "money" },
-    ],
-    []
-  );
-
-  const ratings = useMemo(
-    () => [
-      { label: "Facilities", value: 4.1 },
-      { label: "Services", value: 4.9 },
-      { label: "Comfort", value: 4.5 },
-      { label: "Location", value: 4.3 },
-    ],
-    []
-  );
-
-  const reservationByMonth = useMemo(
-    () => [
-      { m: "January", v: 186 },
-      { m: "February", v: 305 },
-      { m: "March", v: 237 },
-      { m: "April", v: 73 },
-      { m: "May", v: 209 },
-      { m: "June", v: 214 },
-    ],
-    []
-  );
-
-  const bookingByPlatform = useMemo(
-    () => [
-      { label: "Direct Booking", value: 275, color: "#1f1a12" },
-      { label: "Bookin.web", value: 200, color: "#dcd4c8" },
-      { label: "AirBnb", value: 187, color: "#8d6a3a" },
-      { label: "Others", value: 173, color: "#b7a58a" },
-      { label: "Agonda", value: 90, color: "#6b5435" },
-    ],
-    []
-  );
-
-  const roomAvailability = useMemo(
-    () => ({
-      occupied: 350,
-      available: 14,
-      notAvailable: 55,
-      pending: 80,
-      segments: [
-        { label: "Occupied", w: 62, c: "#8d6a3a" },
-        { label: "Available", w: 15, c: "#dcd4c8" },
-        { label: "Not Available", w: 4, c: "#1f1a12" },
-        { label: "Pending", w: 19, c: "#b7a58a" },
-      ],
-    }),
-    []
-  );
-
-  const bookingList = useMemo(
-    () => [
-      {
-        id: "GA-334567",
-        guest: "Solo Samson",
-        roomType: "Standard",
-        roomNo: "Room 333",
-        duration: "6 Nights",
-        dates: "May 10, 2025 - May 16, 2025",
-        status: "Checked-In",
-        statusTone: "green",
-      },
-      {
-        id: "GA-334568",
-        guest: "Mia Santos",
-        roomType: "Deluxe",
-        roomNo: "Room 210",
-        duration: "2 Nights",
-        dates: "May 11, 2025 - May 13, 2025",
-        status: "Checked-Out",
-        statusTone: "red",
-      },
-      {
-        id: "GA-334569",
-        guest: "Ken Dela Cruz",
-        roomType: "Standard",
-        roomNo: "Room 118",
-        duration: "1 Night",
-        dates: "May 12, 2025 - May 13, 2025",
-        status: "Pending",
-        statusTone: "amber",
-      },
-      {
-        id: "GA-334570",
-        guest: "Alyssa Reyes",
-        roomType: "Suite",
-        roomNo: "Room 501",
-        duration: "3 Nights",
-        dates: "May 12, 2025 - May 15, 2025",
-        status: "Checked-In",
-        statusTone: "green",
-      },
-    ],
-    []
-  );
-
-  const tasks = useMemo(
-    () => [
-      {
-        date: "May 20th 2025",
-        title: "Front desk shift handover",
-        body:
-          "Review arrivals, pending requests, and VIP notes. Confirm keys, cash float, and open tickets before turnover.",
-      },
-      {
-        date: "May 20th 2025",
-        title: "Room inspection follow-up",
-        body:
-          "Recheck rooms flagged for maintenance. Update status and notify housekeeping for final touches.",
-      },
     ],
     []
   );
@@ -151,329 +24,612 @@ function Dashboard({ onLogout }) {
   const [active, setActive] = useState("dashboard");
   const [q, setQ] = useState("");
 
-  const maxMonth = Math.max(...reservationByMonth.map((x) => x.v));
-  const overall = (ratings.reduce((a, r) => a + r.value, 0) / ratings.length).toFixed(1);
-
-  const pieStyle = useMemo(() => {
-    const total = bookingByPlatform.reduce((a, b) => a + b.value, 0);
-    let acc = 0;
-    const stops = bookingByPlatform
-      .map((p) => {
-        const from = (acc / total) * 360;
-        acc += p.value;
-        const to = (acc / total) * 360;
-        return `${p.color} ${from}deg ${to}deg`;
-      })
-      .join(", ");
-    return { background: `conic-gradient(${stops})` };
-  }, [bookingByPlatform]);
-
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
     const stroke = { stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
-    if (name === "ticket")
+
+    if (name === "users")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 7h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4Z" />
-          <path {...stroke} d="M9 7v12" />
+          <path {...stroke} d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="9" cy="7" r="4" />
+          <path {...stroke} d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path {...stroke} d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       );
-    if (name === "in")
+
+    if (name === "building")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 12h10" />
-          <path {...stroke} d="M10 8l4 4-4 4" />
-          <path {...stroke} d="M20 5v14" />
+          <path {...stroke} d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
+          <path {...stroke} d="M4 22h16" />
+          <path {...stroke} d="M9 6h2" />
+          <path {...stroke} d="M13 6h2" />
+          <path {...stroke} d="M9 10h2" />
+          <path {...stroke} d="M13 10h2" />
+          <path {...stroke} d="M9 14h2" />
+          <path {...stroke} d="M13 14h2" />
+          <path {...stroke} d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4" />
         </svg>
       );
-    if (name === "out")
+
+    if (name === "userPlus")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M14 12H4" />
-          <path {...stroke} d="M8 8l-4 4 4 4" />
-          <path {...stroke} d="M20 5v14" />
+          <path {...stroke} d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="8.5" cy="7" r="4" />
+          <path {...stroke} d="M20 8v6" />
+          <path {...stroke} d="M17 11h6" />
         </svg>
       );
-    if (name === "money")
+
+    if (name === "userMinus")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M3 7h18v10H3z" />
-          <path {...stroke} d="M7 7a4 4 0 0 0 0 10" />
-          <path {...stroke} d="M17 7a4 4 0 0 1 0 10" />
-          <path {...stroke} d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+          <path {...stroke} d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="8.5" cy="7" r="4" />
+          <path {...stroke} d="M17 11h6" />
         </svg>
       );
-    if (name === "plus")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M12 5v14" />
-          <path {...stroke} d="M5 12h14" />
-        </svg>
-      );
+
     return null;
   };
 
-  const statusPill = (tone, text) => {
-    const map = {
-      green: "bg-[#e7f5ec] text-[#2f7a48]",
-      red: "bg-[#fde8e8] text-[#b42318]",
-      amber: "bg-[#fff4e5] text-[#b35c00]",
+  const ChevronDown = ({ className = "" }) => (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+
+  const CalendarIcon = ({ className = "" }) => (
+    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M8 2v3M16 2v3M3 9h18M5 6h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
+  const counts = useMemo(() => {
+    const employees = 604;
+    const departments = 18;
+    const hirees = 24;
+    const resignees = 7;
+    return { employees, departments, hirees, resignees };
+  }, []);
+
+  const statCards = useMemo(
+    () => [
+      { label: "Employees", value: counts.employees, icon: "users" },
+      { label: "Departments", value: counts.departments, icon: "building" },
+      { label: "Hirees", value: counts.hirees, icon: "userPlus" },
+      { label: "Resignees", value: counts.resignees, icon: "userMinus" },
+    ],
+    [counts]
+  );
+
+  const DEPARTMENTS = useMemo(
+    () => [
+      "C'S",
+      "Central Executive Office",
+      "Commissary",
+      "F&B Culinary",
+      "F&B Service",
+      "Finance",
+      "Front Office",
+      "Housekeeping",
+      "Human Resources",
+      "Office of the Resident Manager",
+      "Sales & Marketing",
+      "Security",
+      "Technical Services",
+      "The Cocoon Spa",
+    ],
+    []
+  );
+
+  const OUTLETS_BY_DEPT = useMemo(
+    () => ({
+      "C'S": ["Cashier Counter", "Retail Shelving Area", "Stock Room"],
+      "Central Executive Office": ["General Manager's Office", "Administrative Assistant's Hub", "Executive Meeting Room"],
+      Commissary: ["Butcher Shop", "Bakery", "Central Cold Storage", "Garde Manger"],
+      "F&B Culinary": ["Hot Line Kitchen", "Pastry Kitchen", "Butcher Station", "Preparation Area"],
+      "F&B Service": ["Fine Dining Restaurant", "Lobby Lounge", "Pool Bar", "Room Service"],
+      Finance: ["Accounting Office", "Purchasing Office", "Income Audit Desk", "Cashier Vault"],
+      "Front Office": ["Reception Desk", "Concierge", "Bell Desk", "Night Audit Station"],
+      Housekeeping: ["Linen Room", "Laundry Area", "Housekeeping Pantry", "Lost and Found Office"],
+      "Human Resources": ["Recruitment Office", "Training Room", "Staff Clinic", "Personnel File Room"],
+      "Office of the Resident Manager": ["Resident Manager's Office", "Executive Lounge", "Duty Manager's Desk"],
+      "Sales & Marketing": ["Banquet Sales Office", "Catering Office", "Events Coordination Desk", "Social Media Hub"],
+      Security: ["CCTV Room", "Guard House", "Patrol Route Checkpoints", "Key Control Room"],
+      "Technical Services": ["Engineering Workshop", "Boiler Room", "HVAC Control Room", "Carpentry Shop"],
+      "The Cocoon Spa": ["Treatment Room (Massage)", "Salon Chair", "Nail Station"],
+    }),
+    []
+  );
+
+  const POSITIONS = useMemo(() => ["Manager", "Supervisor", "Staff", "Trainee", "Intern"], []);
+
+  const [employeeForm, setEmployeeForm] = useState({
+    employeeNo: "",
+    firstName: "",
+    lastName: "",
+    department: "",
+    outlet: "",
+    position: "",
+    dateHired: "",
+    birthdate: "",
+    civilStatus: "",
+    bloodType: "",
+    address: "",
+    contactNo: "",
+    sss: "",
+    philHealth: "",
+    pagIbig: "",
+    tin: "",
+    salaryRate: "",
+  });
+
+  const outletOptions = useMemo(() => {
+    const d = employeeForm.department;
+    return d && OUTLETS_BY_DEPT[d] ? OUTLETS_BY_DEPT[d] : [];
+  }, [employeeForm.department, OUTLETS_BY_DEPT]);
+
+  const age = useMemo(() => {
+    if (!employeeForm.birthdate) return "";
+    const b = new Date(employeeForm.birthdate);
+    if (Number.isNaN(b.getTime())) return "";
+    const now = new Date();
+    let years = now.getFullYear() - b.getFullYear();
+    const m = now.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < b.getDate())) years -= 1;
+    return years < 0 ? "" : String(years);
+  }, [employeeForm.birthdate]);
+
+  const inputBase =
+    "mt-1 w-full h-10 px-3 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10";
+
+  const selectBase =
+    "mt-1 w-full h-10 px-3 pr-10 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10 appearance-none";
+
+  const dateBase =
+    "mt-1 w-full h-10 px-3 pr-10 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10 appearance-none cursor-pointer hover:border-[#dcdcdc] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:w-10 [&::-webkit-calendar-picker-indicator]:h-10 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-inner-spin-button]:opacity-0";
+
+  const labelBase = "text-xs text-[#7a7a7a]";
+
+  const digitsOnly = (v) => String(v || "").replace(/\D+/g, "");
+
+  const setField = (key) => (e) => setEmployeeForm((p) => ({ ...p, [key]: e.target.value }));
+  const setDigitsField = (key) => (e) => setEmployeeForm((p) => ({ ...p, [key]: digitsOnly(e.target.value) }));
+
+  const setDepartment = (e) => {
+    const v = e.target.value;
+    setEmployeeForm((p) => ({
+      ...p,
+      department: v,
+      outlet: "",
+    }));
+  };
+
+  const handleClear = () => {
+    setEmployeeForm({
+      employeeNo: "",
+      firstName: "",
+      lastName: "",
+      department: "",
+      outlet: "",
+      position: "",
+      dateHired: "",
+      birthdate: "",
+      civilStatus: "",
+      bloodType: "",
+      address: "",
+      contactNo: "",
+      sss: "",
+      philHealth: "",
+      pagIbig: "",
+      tin: "",
+      salaryRate: "",
+    });
+  };
+
+  const handleAddEmployee = (e) => {
+    e.preventDefault();
+    const payload = { ...employeeForm, age, employeeNo: employeeForm.employeeNo ? `EM-${employeeForm.employeeNo}` : "" };
+    console.log("Add Employee:", payload);
+  };
+
+  const CalendarPanel = () => {
+    const today = new Date();
+    const [view, setView] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
+    const [selected, setSelected] = useState(() => new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+
+    const WEEKDAYS = useMemo(() => ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"], []);
+
+    const sameDay = (a, b) =>
+      a &&
+      b &&
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+
+    const addMonths = (d, n) => new Date(d.getFullYear(), d.getMonth() + n, 1);
+
+    const monthLabel = useMemo(
+      () =>
+        new Intl.DateTimeFormat("en-US", {
+          month: "long",
+          year: "numeric",
+        }).format(view),
+      [view]
+    );
+
+    const cells = useMemo(() => {
+      const y = view.getFullYear();
+      const m = view.getMonth();
+      const firstDow = new Date(y, m, 1).getDay();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const prevMonthDays = new Date(y, m, 0).getDate();
+
+      const out = [];
+      for (let i = 0; i < 42; i++) {
+        const idx = i - firstDow;
+        const dayNum = idx + 1;
+
+        let date;
+        let inMonth = true;
+
+        if (dayNum <= 0) {
+          const d = prevMonthDays + dayNum;
+          date = new Date(y, m - 1, d);
+          inMonth = false;
+        } else if (dayNum > daysInMonth) {
+          const d = dayNum - daysInMonth;
+          date = new Date(y, m + 1, d);
+          inMonth = false;
+        } else {
+          date = new Date(y, m, dayNum);
+          inMonth = true;
+        }
+
+        out.push({ date, inMonth });
+      }
+      return out;
+    }, [view]);
+
+    const onPick = (d) => {
+      setSelected(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
+      setView(new Date(d.getFullYear(), d.getMonth(), 1));
     };
+
     return (
-      <span className={`px-3 py-1 rounded-full text-[11px] font-semibold ${map[tone] || "bg-[#f2f2f2] text-[#666]"}`}>
-        {text}
-      </span>
+      <div className="w-full">
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setView((v) => addMonths(v, -1))}
+            className="h-9 w-9 rounded-xl border border-[#e7e7e7] bg-white grid place-items-center hover:bg-[#fafafa]"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          <div className="text-sm font-semibold text-[#2a2a2a]">{monthLabel}</div>
+
+          <button
+            type="button"
+            onClick={() => setView((v) => addMonths(v, 1))}
+            className="h-9 w-9 rounded-xl border border-[#e7e7e7] bg-white grid place-items-center hover:bg-[#fafafa]"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="mt-4 grid grid-cols-7 gap-y-2">
+          {WEEKDAYS.map((d) => (
+            <div key={d} className="text-[11px] text-[#9b9b9b] text-center font-medium">
+              {d}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-2 grid grid-cols-7 gap-y-2">
+          {cells.map((c, idx) => {
+            const isSelected = sameDay(c.date, selected);
+            const isToday = sameDay(c.date, today);
+            const baseText = c.inMonth ? "text-[#2a2a2a]" : "text-[#c9c9c9]";
+            const ringToday = isToday && !isSelected ? "ring-1 ring-[#d9d9d9]" : "";
+            const hover = isSelected ? "" : "hover:bg-[#f3f4f6]";
+            return (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => onPick(c.date)}
+                className={`h-10 w-full grid place-items-center rounded-xl ${hover} transition`}
+              >
+                <span
+                  className={[
+                    "h-8 w-8 grid place-items-center rounded-full text-sm",
+                    baseText,
+                    ringToday,
+                    isSelected ? "bg-[#111111] text-white" : "",
+                  ].join(" ")}
+                >
+                  {c.date.getDate()}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
     );
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#eef1f5]">
-      <div className="min-h-screen w-full bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-screen">
+    <div className="h-screen w-full bg-[#eef1f5] overflow-hidden">
+      <div className="h-full w-full bg-white overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] h-full">
           <Sidebar brand={BRAND} navItems={navItems} active={active} setActive={setActive} onLogout={onLogout} />
 
-          <main className="bg-[#f4f5f7] min-h-screen">
+          <main className="bg-[#f4f5f7] h-full overflow-hidden flex flex-col">
             <Navigation q={q} setQ={setQ} />
 
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {cards.map((c) => (
-                  <div
-                    key={c.label}
-                    className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="text-xs text-[#7a7a7a]">{c.label}</div>
-                        <div className="mt-2 text-3xl font-semibold text-[#2a2a2a]">{c.value}</div>
-                      </div>
-                      <div className="h-9 w-9 rounded-xl border border-[#ececec] bg-[#fbfbfb] grid place-items-center text-[#8d6a3a]">
-                        <Icon name={c.icon} />
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <span
-                        className={`px-2 py-1 rounded-full text-[11px] font-semibold ${
-                          c.trendUp ? "bg-[#e7f5ec] text-[#2f7a48]" : "bg-[#fde8e8] text-[#b42318]"
-                        }`}
-                      >
-                        {c.trend}
-                      </span>
-                      <span className="text-[11px] text-[#9b9b9b]">From last week</span>
-                    </div>
-                  </div>
-                ))}
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="text-xs text-[#7a7a7a]">Overall Rating</div>
-                      <div className="mt-2 flex items-center gap-2">
-                        <div className="text-3xl font-semibold text-[#2a2a2a]">{overall}</div>
-                        <div className="text-[11px] px-2 py-1 rounded-full bg-[#f6f2ec] text-[#8d6a3a] font-semibold">
-                          / 5
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-[11px] px-2 py-1 rounded-full bg-[#f6f6f6] border border-[#ececec] text-[#6b6b6b] font-semibold">
-                      {overall}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 space-y-2">
-                    {ratings.map((r) => {
-                      const pct = Math.min(100, Math.max(0, (r.value / 5) * 100));
-                      return (
-                        <div key={r.label} className="flex items-center gap-3">
-                          <div className="w-20.5 text-[11px] text-[#7a7a7a]">{r.label}</div>
-                          <div className="flex-1 h-2 rounded-full bg-[#f0f0f0] overflow-hidden">
-                            <div className="h-full bg-[#8d6a3a]" style={{ width: `${pct}%` }} />
-                          </div>
-                          <div className="w-8 text-[11px] text-[#6b6b6b] font-medium">{r.value.toFixed(1)}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Reservation</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">By months</div>
-
-                  <div className="mt-5 space-y-3">
-                    {reservationByMonth.map((m) => (
-                      <div key={m.m} className="flex items-center gap-3">
-                        <div className="w-17.5 text-[11px] text-[#7a7a7a]">{m.m}</div>
-                        <div className="flex-1 h-7 rounded-lg bg-[#f3f3f3] overflow-hidden">
-                          <div
-                            className="h-full rounded-lg bg-[#dcd4c8]"
-                            style={{ width: `${(m.v / maxMonth) * 100}%` }}
-                          />
-                        </div>
-                        <div className="w-10 text-right text-[11px] text-[#6b6b6b] font-medium">{m.v}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 text-[11px] text-[#6b6b6b]">
-                    <span className="font-semibold">Trending up by 5.2%</span> this month ↗
-                    <div className="text-[#9b9b9b] mt-1">Showing total visitors for the last 6 months</div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Booking</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">By Platform</div>
-
-                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-6 items-center">
-                    <div className="mx-auto h-42.5 w-42.5 rounded-full" style={pieStyle} />
-                    <div className="space-y-2">
-                      {bookingByPlatform.map((p) => (
-                        <div key={p.label} className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 rounded-full" style={{ background: p.color }} />
-                            <span className="text-[11px] text-[#7a7a7a]">{p.label}</span>
-                          </div>
-                          <span className="text-[11px] text-[#6b6b6b] font-medium">{p.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-5 text-center text-[11px] text-[#6b6b6b]">
-                    <span className="font-semibold">Trending up by 5.2%</span> this month ↗
-                    <div className="text-[#9b9b9b] mt-1">Showing total visitors for the last 6 months</div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Room Availability</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">Recent</div>
-
-                  <div className="mt-5 h-12 rounded-2xl bg-[#f3f3f3] overflow-hidden flex">
-                    {roomAvailability.segments.map((s) => (
-                      <div key={s.label} style={{ width: `${s.w}%`, background: s.c }} />
-                    ))}
-                  </div>
-
-                  <div className="mt-5 grid grid-cols-2 gap-4">
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#8d6a3a]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Occupied</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.occupied}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#dcd4c8]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Available</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.available}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#b7a58a]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Pending</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.pending}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#1f1a12]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Not Available</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.notAvailable}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4">
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-sm font-semibold text-[#2a2a2a]">Booking List</div>
-                    <div className="flex items-center gap-2">
-                      <div className="hidden sm:flex items-center gap-2 bg-[#f6f6f6] border border-[#ececec] rounded-full px-4 h-9 w-60">
-                        <input
-                          placeholder="Search"
-                          className="w-full bg-transparent outline-none text-sm text-[#2a2a2a] placeholder:text-[#9b9b9b]"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        className="h-9 rounded-full border border-[#ececec] bg-[#fbfbfb] px-4 text-sm text-[#6b6b6b] hover:bg-[#f7f7f7] cursor-pointer"
-                      >
-                        All Status
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 overflow-x-auto">
-                    <table className="w-full min-w-190 text-left">
-                      <thead>
-                        <tr className="text-[11px] text-[#8a8a8a]">
-                          <th className="py-3 font-semibold">Booking ID</th>
-                          <th className="py-3 font-semibold">Guest Name</th>
-                          <th className="py-3 font-semibold">Room Type</th>
-                          <th className="py-3 font-semibold">Room Number</th>
-                          <th className="py-3 font-semibold">Duration</th>
-                          <th className="py-3 font-semibold">Check-in & Check-out</th>
-                          <th className="py-3 font-semibold text-right">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {bookingList.map((b) => (
-                          <tr key={b.id} className="border-t border-[#f1f1f1] text-sm">
-                            <td className="py-4 text-[#6b6b6b] font-medium">{b.id}</td>
-                            <td className="py-4 text-[#2a2a2a]">{b.guest}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.roomType}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.roomNo}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.duration}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.dates}</td>
-                            <td className="py-4 text-right">{statusPill(b.statusTone, b.status)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-[#2a2a2a]">Task</div>
-                    <button
-                      type="button"
-                      className="h-9 w-9 rounded-xl border border-[#ececec] bg-[#fbfbfb] hover:bg-[#f7f7f7] grid place-items-center cursor-pointer"
-                      aria-label="Add task"
+            <div className="flex-1 min-h-0 p-5 overflow-hidden">
+              <div className="h-full flex flex-col gap-4 min-h-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {statCards.map((c) => (
+                    <div
+                      key={c.label}
+                      className="bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]"
                     >
-                      <Icon name="plus" className="text-[#6b6b6b]" />
-                    </button>
-                  </div>
-
-                  <div className="mt-4 space-y-4">
-                    {tasks.map((t, i) => (
-                      <div key={i} className="flex gap-3">
-                        <div className="flex flex-col items-center pt-1">
-                          <span className="h-3 w-3 rounded-full bg-[#e7e0d6] border border-[#d9d2c8]" />
-                          <span className="w-px flex-1 bg-[#eee7df]" />
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="text-[11px] text-[#7a7a7a]">{c.label}</div>
+                          <div className="mt-1 text-2xl font-semibold text-[#2a2a2a] leading-tight">{c.value}</div>
                         </div>
-                        <div className="flex-1 rounded-2xl bg-[#f6f2ec] border border-[#efe7dd] p-4">
-                          <div className="text-[11px] text-[#7a7a7a] font-medium">{t.date}</div>
-                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a]">{t.title}</div>
-                          <div className="mt-2 text-[12px] leading-relaxed text-[#6b6b6b]">{t.body}</div>
-                          <button
-                            type="button"
-                            className="mt-2 text-[12px] font-semibold text-[#8d6a3a] hover:text-[#7c5d32] cursor-pointer"
-                          >
-                            Read More
-                          </button>
+                        <div className="h-8 w-8 rounded-xl border border-[#ececec] bg-[#fbfbfb] grid place-items-center text-[#8d6a3a]">
+                          <Icon name={c.icon} />
                         </div>
                       </div>
-                    ))}
+                      <div className="mt-2 text-[10px] text-[#9b9b9b]">
+                        Updated:{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }).format(new Date())}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex-1 min-h-0">
+                  <div className="h-full min-h-0 grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-4">
+                    <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0] h-full overflow-hidden flex flex-col">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                          <div className="text-sm font-semibold text-[#2a2a2a]">Add Employee Data</div>
+                          <div className="mt-1 text-xs text-[#8a8a8a]">Fill out the employee information below.</div>
+                        </div>
+                      </div>
+
+                      <form id="add-employee-form" onSubmit={handleAddEmployee} className="mt-4 flex-1 min-h-0 overflow-auto pr-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-1">
+                          <div>
+                            <div className={labelBase}>Employee No.</div>
+                            <div className="relative">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8a8a] select-none">
+                                EM-
+                              </span>
+                              <input
+                                value={employeeForm.employeeNo}
+                                onChange={setDigitsField("employeeNo")}
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                className={`${inputBase} pl-12`}
+                                placeholder="0000"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>First Name</div>
+                            <input value={employeeForm.firstName} onChange={setField("firstName")} className={inputBase} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Last Name</div>
+                            <input value={employeeForm.lastName} onChange={setField("lastName")} className={inputBase} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Department</div>
+                            <div className="relative">
+                              <select value={employeeForm.department} onChange={setDepartment} className={selectBase}>
+                                <option value="">Select</option>
+                                {DEPARTMENTS.map((d) => (
+                                  <option key={d} value={d}>
+                                    {d}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Outlet</div>
+                            <div className="relative">
+                              <select
+                                value={employeeForm.outlet}
+                                onChange={setField("outlet")}
+                                className={`${selectBase} ${!employeeForm.department ? "bg-[#fbfbfb] text-[#9b9b9b]" : ""}`}
+                                disabled={!employeeForm.department}
+                              >
+                                <option value="">{employeeForm.department ? "Select" : "Select Department first"}</option>
+                                {outletOptions.map((o) => (
+                                  <option key={o} value={o}>
+                                    {o}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Position</div>
+                            <div className="relative">
+                              <select value={employeeForm.position} onChange={setField("position")} className={selectBase}>
+                                <option value="">Select</option>
+                                {POSITIONS.map((p) => (
+                                  <option key={p} value={p}>
+                                    {p}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col gap-4">
+                            <div>
+                              <div className={labelBase}>Date Hired</div>
+                              <div className="relative">
+                                <input
+                                  type="date"
+                                  value={employeeForm.dateHired}
+                                  onChange={setField("dateHired")}
+                                  className={dateBase}
+                                />
+                                <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className={labelBase}>Address</div>
+                              <input value={employeeForm.address} onChange={setField("address")} className={inputBase} />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Birthdate</div>
+                            <div className="relative">
+                              <input type="date" value={employeeForm.birthdate} onChange={setField("birthdate")} className={dateBase} />
+                              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Age</div>
+                            <input value={age} readOnly className={`${inputBase} bg-[#fbfbfb]`} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Civil Status</div>
+                            <div className="relative">
+                              <select value={employeeForm.civilStatus} onChange={setField("civilStatus")} className={selectBase}>
+                                <option value="">Select</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Blood Type</div>
+                            <div className="relative">
+                              <select value={employeeForm.bloodType} onChange={setField("bloodType")} className={selectBase}>
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Contact No.</div>
+                            <input
+                              value={employeeForm.contactNo}
+                              onChange={setDigitsField("contactNo")}
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              className={inputBase}
+                              placeholder="09XXXXXXXXX"
+                            />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>SSS</div>
+                            <input value={employeeForm.sss} onChange={setField("sss")} className={inputBase} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>PhilHealth</div>
+                            <input value={employeeForm.philHealth} onChange={setField("philHealth")} className={inputBase} />
+                          </div>
+
+                          <div className="mb-1">
+                            <div className={labelBase}>Pag-Ibig</div>
+                            <input value={employeeForm.pagIbig} onChange={setField("pagIbig")} className={inputBase} />
+                          </div>
+
+                          <div className="mb-1">
+                            <div className={labelBase}>TIN</div>
+                            <input value={employeeForm.tin} onChange={setField("tin")} className={inputBase} />
+                          </div>
+
+                          <div className="mb-1">
+                            <div className={labelBase}>Salary Rate</div>
+                            <input
+                              type="number"
+                              step="0.01"
+                              value={employeeForm.salaryRate}
+                              onChange={setField("salaryRate")}
+                              className={inputBase}
+                            />
+                          </div>
+
+                          <div className="md:col-span-2 lg:col-span-3 flex justify-end gap-2 pt-2">
+                            <button
+                              type="button"
+                              onClick={handleClear}
+                              className="h-9 px-4 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] hover:bg-[#fafafa]"
+                            >
+                              Clear
+                            </button>
+                            <button
+                              type="submit"
+                              className="h-9 px-4 rounded-xl bg-[#8d6a3a] text-white text-sm font-medium hover:opacity-95"
+                            >
+                              Add Employee
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div className="bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0] h-full overflow-hidden">
+                      <CalendarPanel />
+                    </div>
                   </div>
                 </div>
               </div>

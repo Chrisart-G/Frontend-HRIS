@@ -15,6 +15,15 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
         </svg>
       );
 
+    if (name === "layers")
+      return (
+        <svg {...common} className={className}>
+          <path {...stroke} d="M12 3l9 6-9 6-9-6 9-6Z" />
+          <path {...stroke} d="M21 15l-9 6-9-6" />
+          <path {...stroke} d="M21 11l-9 6-9-6" />
+        </svg>
+      );
+
     if (name === "users")
       return (
         <svg {...common} className={className}>
@@ -117,13 +126,14 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
 
   const menu = useMemo(
     () => [
+      { key: "dashboard", label: "Dashboard", icon: "grid", dividerAfter: true },
       {
         key: "master_list",
         label: "Master List",
-        icon: "grid",
+        icon: "layers",
         children: [
           { key: "employees", label: "Employees", icon: "users" },
-          { key: "manpower", label: "Manpower", icon: "grid" },
+          { key: "manpower", label: "Manpower", icon: "id" },
         ],
       },
       { key: "departments_outlets", label: "Department", icon: "gear" },
@@ -133,7 +143,7 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
       { key: "attrition_summary", label: "Attrition Summary", icon: "bed" },
       { key: "awards_history", label: "Awards and History", icon: "chat" },
       { key: "birthday_calendar", label: "Birthday Calendar", icon: "calendar" },
-      { key: "manpower_chart", label: "Manpower Chart", icon: "grid" },
+      { key: "manpower_chart", label: "Manpower Chart", icon: "calendar" },
       { key: "employee_number", label: "Employee Number", icon: "id" },
     ],
     []
@@ -159,78 +169,85 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
           const anyChildActive = hasChildren && item.children.some((c) => c.key === active);
           const isGroupOpen = hasChildren ? !!openGroups[item.key] : false;
 
+          const separator = item.dividerAfter ? <div className="my-3 mx-2 border-t border-[#d6cec3]" /> : null;
+
           if (!hasChildren) {
             const on = item.key === active;
             return (
-              <button
-                key={item.key}
-                type="button"
-                onClick={() => setActive(item.key)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition cursor-pointer ${
-                  on ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]" : "text-[#4a4a4a] hover:bg-white/60"
-                }`}
-              >
-                <span className={`${on ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
-                  <Icon name={item.icon} />
-                </span>
-                <span className="font-medium">{item.label}</span>
-              </button>
+              <React.Fragment key={item.key}>
+                <button
+                  type="button"
+                  onClick={() => setActive(item.key)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition cursor-pointer ${
+                    on ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]" : "text-[#4a4a4a] hover:bg-white/60"
+                  }`}
+                >
+                  <span className={`${on ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
+                    <Icon name={item.icon} />
+                  </span>
+                  <span className="font-medium">{item.label}</span>
+                </button>
+                {separator}
+              </React.Fragment>
             );
           }
 
           return (
-            <div key={item.key} className="space-y-1">
-              <button
-                type="button"
-                onClick={() => setOpenGroups((p) => ({ ...p, [item.key]: !p[item.key] }))}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition cursor-pointer ${
-                  anyChildActive
-                    ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
-                    : "text-[#4a4a4a] hover:bg-white/60"
-                }`}
-              >
-                <span className={`${anyChildActive ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
-                  <Icon name={item.icon} />
-                </span>
-                <span className="font-medium flex-1 text-left">{item.label}</span>
-                <span className={`${anyChildActive ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d={isGroupOpen ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"}
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </button>
+            <React.Fragment key={item.key}>
+              <div className="space-y-1">
+                <button
+                  type="button"
+                  onClick={() => setOpenGroups((p) => ({ ...p, [item.key]: !p[item.key] }))}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition cursor-pointer ${
+                    anyChildActive
+                      ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
+                      : "text-[#4a4a4a] hover:bg-white/60"
+                  }`}
+                >
+                  <span className={`${anyChildActive ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
+                    <Icon name={item.icon} />
+                  </span>
+                  <span className="font-medium flex-1 text-left">{item.label}</span>
+                  <span className={`${anyChildActive ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d={isGroupOpen ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"}
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
 
-              {isGroupOpen && (
-                <div className="pl-3 space-y-1">
-                  {item.children.map((it) => {
-                    const on = it.key === active;
-                    return (
-                      <button
-                        key={it.key}
-                        type="button"
-                        onClick={() => setActive(it.key)}
-                        className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] transition cursor-pointer ${
-                          on
-                            ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
-                            : "text-[#4a4a4a] hover:bg-white/60"
-                        }`}
-                      >
-                        <span className={`${on ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
-                          <Icon name={it.icon} />
-                        </span>
-                        <span className="font-medium">{it.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                {isGroupOpen && (
+                  <div className="pl-3 space-y-1">
+                    {item.children.map((it) => {
+                      const on = it.key === active;
+                      return (
+                        <button
+                          key={it.key}
+                          type="button"
+                          onClick={() => setActive(it.key)}
+                          className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] transition cursor-pointer ${
+                            on
+                              ? "bg-white text-[#1d1d1d] shadow-[0_10px_25px_rgba(0,0,0,0.06)]"
+                              : "text-[#4a4a4a] hover:bg-white/60"
+                          }`}
+                        >
+                          <span className={`${on ? "text-[#8d6a3a]" : "text-[#6b6b6b]"}`}>
+                            <Icon name={it.icon} />
+                          </span>
+                          <span className="font-medium">{it.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              {separator}
+            </React.Fragment>
           );
         })}
       </nav>
