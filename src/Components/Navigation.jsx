@@ -56,11 +56,11 @@ function Navigation({ q, setQ }) {
 
           <div className="hidden md:flex items-center gap-2">
             <div className="text-right leading-tight">
-              <div className="text-sm font-semibold text-[#2a2a2a]">Don Frozae</div>
+              <div className="text-sm font-semibold text-[#2a2a2a]">Admin</div>
               <div className="text-[11px] text-[#7a7a7a]">Admin</div>
             </div>
             <div className="h-10 w-10 rounded-full bg-[#e7e0d6] flex items-center justify-center text-[#8d6a3a] font-semibold">
-              DF
+              AD
             </div>
           </div>
 
