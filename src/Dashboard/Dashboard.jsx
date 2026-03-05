@@ -153,19 +153,26 @@ function Dashboard({ onLogout }) {
 
   const POSITIONS = useMemo(() => ["Manager", "Supervisor", "Staff", "Trainee", "Intern"], []);
 
+  const EMPLOYMENT_STATUSES = useMemo(
+    () => ["Regular", "Probationary", "Contractual", "Part-Time", "Trainee", "Intern"],
+    []
+  );
+
   const [employeeForm, setEmployeeForm] = useState({
     employeeNo: "",
     firstName: "",
+    middleName: "",
     lastName: "",
-    department: "",
-    outlet: "",
-    position: "",
-    dateHired: "",
     birthdate: "",
     civilStatus: "",
     bloodType: "",
     address: "",
     contactNo: "",
+    department: "",
+    outlet: "",
+    position: "",
+    employmentStatus: "",
+    dateHired: "",
     sss: "",
     philHealth: "",
     pagIbig: "",
@@ -218,16 +225,18 @@ function Dashboard({ onLogout }) {
     setEmployeeForm({
       employeeNo: "",
       firstName: "",
+      middleName: "",
       lastName: "",
-      department: "",
-      outlet: "",
-      position: "",
-      dateHired: "",
       birthdate: "",
       civilStatus: "",
       bloodType: "",
       address: "",
       contactNo: "",
+      department: "",
+      outlet: "",
+      position: "",
+      employmentStatus: "",
+      dateHired: "",
       sss: "",
       philHealth: "",
       pagIbig: "",
@@ -446,8 +455,79 @@ function Dashboard({ onLogout }) {
                           </div>
 
                           <div>
+                            <div className={labelBase}>Middle Name</div>
+                            <input value={employeeForm.middleName} onChange={setField("middleName")} className={inputBase} />
+                          </div>
+
+                          <div>
                             <div className={labelBase}>Last Name</div>
                             <input value={employeeForm.lastName} onChange={setField("lastName")} className={inputBase} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Birthdate</div>
+                            <div className="relative">
+                              <input type="date" value={employeeForm.birthdate} onChange={setField("birthdate")} className={dateBase} />
+                              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Age</div>
+                            <input value={age} readOnly className={`${inputBase} bg-[#fbfbfb]`} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Civil Status</div>
+                            <div className="relative">
+                              <select value={employeeForm.civilStatus} onChange={setField("civilStatus")} className={selectBase}>
+                                <option value="">Select</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Blood Type</div>
+                            <div className="relative">
+                              <select value={employeeForm.bloodType} onChange={setField("bloodType")} className={selectBase}>
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
+                            </div>
+                          </div>
+
+                          <div className="md:col-span-2 lg:col-span-3">
+                            <div className={labelBase}>Address</div>
+                            <input value={employeeForm.address} onChange={setField("address")} className={inputBase} />
+                          </div>
+
+                          <div>
+                            <div className={labelBase}>Contact Number</div>
+                            <input
+                              value={employeeForm.contactNo}
+                              onChange={setDigitsField("contactNo")}
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              className={inputBase}
+                              placeholder="09XXXXXXXXX"
+                            />
+                          </div>
+
+                          <div className="md:col-span-2 lg:col-span-3">
+                            <div className="h-px w-full bg-[#eeeeee] rounded-full my-1" />
                           </div>
 
                           <div>
@@ -500,81 +580,35 @@ function Dashboard({ onLogout }) {
                             </div>
                           </div>
 
-                          <div className="flex flex-col gap-4">
-                            <div>
-                              <div className={labelBase}>Date Hired</div>
-                              <div className="relative">
-                                <input
-                                  type="date"
-                                  value={employeeForm.dateHired}
-                                  onChange={setField("dateHired")}
-                                  className={dateBase}
-                                />
-                                <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                              </div>
-                            </div>
-
-                            <div>
-                              <div className={labelBase}>Address</div>
-                              <input value={employeeForm.address} onChange={setField("address")} className={inputBase} />
+                          <div>
+                            <div className={labelBase}>Employment Status</div>
+                            <div className="relative">
+                              <select
+                                value={employeeForm.employmentStatus}
+                                onChange={setField("employmentStatus")}
+                                className={selectBase}
+                              >
+                                <option value="">Select</option>
+                                {EMPLOYMENT_STATUSES.map((s) => (
+                                  <option key={s} value={s}>
+                                    {s}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
                             </div>
                           </div>
 
                           <div>
-                            <div className={labelBase}>Birthdate</div>
+                            <div className={labelBase}>Date Hired</div>
                             <div className="relative">
-                              <input type="date" value={employeeForm.birthdate} onChange={setField("birthdate")} className={dateBase} />
+                              <input type="date" value={employeeForm.dateHired} onChange={setField("dateHired")} className={dateBase} />
                               <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
                             </div>
                           </div>
 
-                          <div>
-                            <div className={labelBase}>Age</div>
-                            <input value={age} readOnly className={`${inputBase} bg-[#fbfbfb]`} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Civil Status</div>
-                            <div className="relative">
-                              <select value={employeeForm.civilStatus} onChange={setField("civilStatus")} className={selectBase}>
-                                <option value="">Select</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Widowed">Widowed</option>
-                                <option value="Separated">Separated</option>
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Blood Type</div>
-                            <div className="relative">
-                              <select value={employeeForm.bloodType} onChange={setField("bloodType")} className={selectBase}>
-                                <option value="">Select</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Contact No.</div>
-                            <input
-                              value={employeeForm.contactNo}
-                              onChange={setDigitsField("contactNo")}
-                              inputMode="numeric"
-                              pattern="[0-9]*"
-                              className={inputBase}
-                              placeholder="09XXXXXXXXX"
-                            />
+                          <div className="md:col-span-2 lg:col-span-3">
+                            <div className="h-px w-full bg-[#eeeeee] rounded-full my-1" />
                           </div>
 
                           <div>
@@ -587,17 +621,17 @@ function Dashboard({ onLogout }) {
                             <input value={employeeForm.philHealth} onChange={setField("philHealth")} className={inputBase} />
                           </div>
 
-                          <div className="mb-1">
+                          <div>
                             <div className={labelBase}>Pag-Ibig</div>
                             <input value={employeeForm.pagIbig} onChange={setField("pagIbig")} className={inputBase} />
                           </div>
 
-                          <div className="mb-1">
+                          <div>
                             <div className={labelBase}>TIN</div>
                             <input value={employeeForm.tin} onChange={setField("tin")} className={inputBase} />
                           </div>
 
-                          <div className="mb-1">
+                          <div>
                             <div className={labelBase}>Salary Rate</div>
                             <input
                               type="number"
