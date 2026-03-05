@@ -94,10 +94,10 @@ function Dashboard({ onLogout }) {
   );
 
   const counts = useMemo(() => {
-    const employees = 604;
-    const departments = 18;
-    const hirees = 24;
-    const resignees = 7;
+    const employees = 0;
+    const departments = 0;
+    const hirees = 0;
+    const resignees = 0;
     return { employees, departments, hirees, resignees };
   }, []);
 
