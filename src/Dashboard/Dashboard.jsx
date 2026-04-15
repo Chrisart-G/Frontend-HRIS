@@ -92,6 +92,7 @@ function Dashboard({ onLogout }) {
       />
     </svg>
   );
+     
 
   const counts = useMemo(() => {
     const employees = 0;
