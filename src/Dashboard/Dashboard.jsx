@@ -5,8 +5,8 @@ import Navigation from "../Components/Navigation";
 function Dashboard({ onLogout }) {
   const BRAND = useMemo(
     () => ({
-      logoSrc: "/Logo.jpg",
-      name: "L'Fisher Hotel",
+      logoSrc: "/recruitment.png",
+      name: "Human Resources Information System",
       sub: "Staff & Admin",
     }),
     []
@@ -72,33 +72,22 @@ function Dashboard({ onLogout }) {
         </svg>
       );
 
+    if (name === "clock")
+      return (
+        <svg {...common} className={className}>
+          <circle {...stroke} cx="12" cy="12" r="9" />
+          <path {...stroke} d="M12 7v5l3 2" />
+        </svg>
+      );
+
     return null;
   };
 
-  const ChevronDown = ({ className = "" }) => (
-    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-
-  const CalendarIcon = ({ className = "" }) => (
-    <svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M8 2v3M16 2v3M3 9h18M5 6h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-     
-
   const counts = useMemo(() => {
-    const employees = 0;
-    const departments = 0;
-    const hirees = 0;
-    const resignees = 0;
+    const employees = 1340;
+    const departments = 14;
+    const hirees = 36;
+    const resignees = 8;
     return { employees, departments, hirees, resignees };
   }, []);
 
@@ -112,273 +101,65 @@ function Dashboard({ onLogout }) {
     [counts]
   );
 
-  const DEPARTMENTS = useMemo(
+  const monthlyEmployees = useMemo(
     () => [
-      "C'S",
-      "Central Executive Office",
-      "Commissary",
-      "F&B Culinary",
-      "F&B Service",
-      "Finance",
-      "Front Office",
-      "Housekeeping",
-      "Human Resources",
-      "Office of the Resident Manager",
-      "Sales & Marketing",
-      "Security",
-      "Technical Services",
-      "The Cocoon Spa",
+      { label: "Jan", total: 980, hired: 22 },
+      { label: "Feb", total: 1015, hired: 18 },
+      { label: "Mar", total: 1048, hired: 27 },
+      { label: "Apr", total: 1082, hired: 24 },
+      { label: "May", total: 1118, hired: 30 },
+      { label: "Jun", total: 1155, hired: 19 },
+      { label: "Jul", total: 1192, hired: 33 },
+      { label: "Aug", total: 1230, hired: 29 },
+      { label: "Sep", total: 1268, hired: 26 },
+      { label: "Oct", total: 1294, hired: 21 },
+      { label: "Nov", total: 1316, hired: 17 },
+      { label: "Dec", total: 1340, hired: 23 },
     ],
     []
   );
 
-  const OUTLETS_BY_DEPT = useMemo(
-    () => ({
-      "C'S": ["Cashier Counter", "Retail Shelving Area", "Stock Room"],
-      "Central Executive Office": ["General Manager's Office", "Administrative Assistant's Hub", "Executive Meeting Room"],
-      Commissary: ["Butcher Shop", "Bakery", "Central Cold Storage", "Garde Manger"],
-      "F&B Culinary": ["Hot Line Kitchen", "Pastry Kitchen", "Butcher Station", "Preparation Area"],
-      "F&B Service": ["Fine Dining Restaurant", "Lobby Lounge", "Pool Bar", "Room Service"],
-      Finance: ["Accounting Office", "Purchasing Office", "Income Audit Desk", "Cashier Vault"],
-      "Front Office": ["Reception Desk", "Concierge", "Bell Desk", "Night Audit Station"],
-      Housekeeping: ["Linen Room", "Laundry Area", "Housekeeping Pantry", "Lost and Found Office"],
-      "Human Resources": ["Recruitment Office", "Training Room", "Staff Clinic", "Personnel File Room"],
-      "Office of the Resident Manager": ["Resident Manager's Office", "Executive Lounge", "Duty Manager's Desk"],
-      "Sales & Marketing": ["Banquet Sales Office", "Catering Office", "Events Coordination Desk", "Social Media Hub"],
-      Security: ["CCTV Room", "Guard House", "Patrol Route Checkpoints", "Key Control Room"],
-      "Technical Services": ["Engineering Workshop", "Boiler Room", "HVAC Control Room", "Carpentry Shop"],
-      "The Cocoon Spa": ["Treatment Room (Massage)", "Salon Chair", "Nail Station"],
-    }),
+  const positionData = useMemo(
+    () => [
+      { label: "Manager", value: 64 },
+      { label: "Supervisor", value: 118 },
+      { label: "Staff", value: 892 },
+      { label: "Trainee", value: 176 },
+      { label: "Intern", value: 90 },
+    ],
     []
   );
 
-  const POSITIONS = useMemo(() => ["Manager", "Supervisor", "Staff", "Trainee", "Intern"], []);
-
-  const EMPLOYMENT_STATUSES = useMemo(
-    () => ["Regular", "Probationary", "Contractual", "Part-Time", "Trainee", "Intern"],
+  const attendanceData = useMemo(
+    () => [
+      { name: "John Smith", department: "Front Office", position: "Manager", timeIn: "08:00 AM", timeOut: "05:00 PM", status: "Present" },
+      { name: "Helga Miller", department: "Human Resources", position: "Supervisor", timeIn: "08:03 AM", timeOut: "05:02 PM", status: "Present" },
+      { name: "Jacob Bold", department: "Finance", position: "Staff", timeIn: "08:14 AM", timeOut: "05:00 PM", status: "Late" },
+      { name: "Anna Walker", department: "Housekeeping", position: "Staff", timeIn: "07:56 AM", timeOut: "05:01 PM", status: "Present" },
+      { name: "Michael Brown", department: "Security", position: "Supervisor", timeIn: "08:22 AM", timeOut: "05:00 PM", status: "Late" },
+      { name: "Elena Harris", department: "Sales & Marketing", position: "Staff", timeIn: "—", timeOut: "—", status: "Absent" },
+    ],
     []
   );
 
-  const [employeeForm, setEmployeeForm] = useState({
-    employeeNo: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    birthdate: "",
-    civilStatus: "",
-    bloodType: "",
-    address: "",
-    contactNo: "",
-    department: "",
-    outlet: "",
-    position: "",
-    employmentStatus: "",
-    dateHired: "",
-    sss: "",
-    philHealth: "",
-    pagIbig: "",
-    tin: "",
-    salaryRate: "",
-  });
+  const maxMonthlyTotal = useMemo(() => Math.max(...monthlyEmployees.map((item) => item.total)), [monthlyEmployees]);
+  const maxPositionValue = useMemo(() => Math.max(...positionData.map((item) => item.value)), [positionData]);
 
-  const outletOptions = useMemo(() => {
-    const d = employeeForm.department;
-    return d && OUTLETS_BY_DEPT[d] ? OUTLETS_BY_DEPT[d] : [];
-  }, [employeeForm.department, OUTLETS_BY_DEPT]);
+  const attendanceSummary = useMemo(() => {
+    const present = attendanceData.filter((item) => item.status === "Present").length;
+    const late = attendanceData.filter((item) => item.status === "Late").length;
+    const absent = attendanceData.filter((item) => item.status === "Absent").length;
+    return { present, late, absent };
+  }, [attendanceData]);
 
-  const age = useMemo(() => {
-    if (!employeeForm.birthdate) return "";
-    const b = new Date(employeeForm.birthdate);
-    if (Number.isNaN(b.getTime())) return "";
-    const now = new Date();
-    let years = now.getFullYear() - b.getFullYear();
-    const m = now.getMonth() - b.getMonth();
-    if (m < 0 || (m === 0 && now.getDate() < b.getDate())) years -= 1;
-    return years < 0 ? "" : String(years);
-  }, [employeeForm.birthdate]);
-
-  const inputBase =
-    "mt-1 w-full h-10 px-3 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10";
-
-  const selectBase =
-    "mt-1 w-full h-10 px-3 pr-10 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10 appearance-none";
-
-  const dateBase =
-    "mt-1 w-full h-10 px-3 pr-10 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] outline-none focus:border-[#8d6a3a] focus:ring-2 focus:ring-[#8d6a3a]/10 appearance-none cursor-pointer hover:border-[#dcdcdc] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:w-10 [&::-webkit-calendar-picker-indicator]:h-10 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-inner-spin-button]:opacity-0";
-
-  const labelBase = "text-xs text-[#7a7a7a]";
-
-  const digitsOnly = (v) => String(v || "").replace(/\D+/g, "");
-
-  const setField = (key) => (e) => setEmployeeForm((p) => ({ ...p, [key]: e.target.value }));
-  const setDigitsField = (key) => (e) => setEmployeeForm((p) => ({ ...p, [key]: digitsOnly(e.target.value) }));
-
-  const setDepartment = (e) => {
-    const v = e.target.value;
-    setEmployeeForm((p) => ({
-      ...p,
-      department: v,
-      outlet: "",
-    }));
-  };
-
-  const handleClear = () => {
-    setEmployeeForm({
-      employeeNo: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      birthdate: "",
-      civilStatus: "",
-      bloodType: "",
-      address: "",
-      contactNo: "",
-      department: "",
-      outlet: "",
-      position: "",
-      employmentStatus: "",
-      dateHired: "",
-      sss: "",
-      philHealth: "",
-      pagIbig: "",
-      tin: "",
-      salaryRate: "",
-    });
-  };
-
-  const handleAddEmployee = (e) => {
-    e.preventDefault();
-    const payload = { ...employeeForm, age, employeeNo: employeeForm.employeeNo ? `EM-${employeeForm.employeeNo}` : "" };
-    console.log("Add Employee:", payload);
-  };
-
-  const CalendarPanel = () => {
-    const today = new Date();
-    const [view, setView] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
-    const [selected, setSelected] = useState(() => new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-
-    const WEEKDAYS = useMemo(() => ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"], []);
-
-    const sameDay = (a, b) =>
-      a &&
-      b &&
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate();
-
-    const addMonths = (d, n) => new Date(d.getFullYear(), d.getMonth() + n, 1);
-
-    const monthLabel = useMemo(
-      () =>
-        new Intl.DateTimeFormat("en-US", {
-          month: "long",
-          year: "numeric",
-        }).format(view),
-      [view]
-    );
-
-    const cells = useMemo(() => {
-      const y = view.getFullYear();
-      const m = view.getMonth();
-      const firstDow = new Date(y, m, 1).getDay();
-      const daysInMonth = new Date(y, m + 1, 0).getDate();
-      const prevMonthDays = new Date(y, m, 0).getDate();
-
-      const out = [];
-      for (let i = 0; i < 42; i++) {
-        const idx = i - firstDow;
-        const dayNum = idx + 1;
-
-        let date;
-        let inMonth = true;
-
-        if (dayNum <= 0) {
-          const d = prevMonthDays + dayNum;
-          date = new Date(y, m - 1, d);
-          inMonth = false;
-        } else if (dayNum > daysInMonth) {
-          const d = dayNum - daysInMonth;
-          date = new Date(y, m + 1, d);
-          inMonth = false;
-        } else {
-          date = new Date(y, m, dayNum);
-          inMonth = true;
-        }
-
-        out.push({ date, inMonth });
-      }
-      return out;
-    }, [view]);
-
-    const onPick = (d) => {
-      setSelected(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
-      setView(new Date(d.getFullYear(), d.getMonth(), 1));
+  const StatusBadge = ({ status }) => {
+    const map = {
+      Present: "bg-[#ebe5dc] text-[#8d6a3a]",
+      Late: "bg-[#f3ece3] text-[#8d6a3a]",
+      Absent: "bg-[#f7f3ee] text-[#8d6a3a]",
     };
 
-    return (
-      <div className="w-full">
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => setView((v) => addMonths(v, -1))}
-            className="h-9 w-9 rounded-xl border border-[#e7e7e7] bg-white grid place-items-center hover:bg-[#fafafa]"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-
-          <div className="text-sm font-semibold text-[#2a2a2a]">{monthLabel}</div>
-
-          <button
-            type="button"
-            onClick={() => setView((v) => addMonths(v, 1))}
-            className="h-9 w-9 rounded-xl border border-[#e7e7e7] bg-white grid place-items-center hover:bg-[#fafafa]"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="mt-4 grid grid-cols-7 gap-y-2">
-          {WEEKDAYS.map((d) => (
-            <div key={d} className="text-[11px] text-[#9b9b9b] text-center font-medium">
-              {d}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-2 grid grid-cols-7 gap-y-2">
-          {cells.map((c, idx) => {
-            const isSelected = sameDay(c.date, selected);
-            const isToday = sameDay(c.date, today);
-            const baseText = c.inMonth ? "text-[#2a2a2a]" : "text-[#c9c9c9]";
-            const ringToday = isToday && !isSelected ? "ring-1 ring-[#d9d9d9]" : "";
-            const hover = isSelected ? "" : "hover:bg-[#f3f4f6]";
-            return (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => onPick(c.date)}
-                className={`h-10 w-full grid place-items-center rounded-xl ${hover} transition`}
-              >
-                <span
-                  className={[
-                    "h-8 w-8 grid place-items-center rounded-full text-sm",
-                    baseText,
-                    ringToday,
-                    isSelected ? "bg-[#111111] text-white" : "",
-                  ].join(" ")}
-                >
-                  {c.date.getDate()}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    );
+    return <span className={`inline-flex items-center justify-center min-w-[74px] h-7 px-3 rounded-full text-xs font-medium ${map[status]}`}>{status}</span>;
   };
 
   return (
@@ -403,7 +184,7 @@ function Dashboard({ onLogout }) {
                           <div className="text-[11px] text-[#7a7a7a]">{c.label}</div>
                           <div className="mt-1 text-2xl font-semibold text-[#2a2a2a] leading-tight">{c.value}</div>
                         </div>
-                        <div className="h-8 w-8 rounded-xl border border-[#ececec] bg-[#fbfbfb] grid place-items-center text-[#8d6a3a]">
+                        <div className="h-8 w-8 rounded-xl border border-[#ece7df] bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
                           <Icon name={c.icon} />
                         </div>
                       </div>
@@ -421,249 +202,170 @@ function Dashboard({ onLogout }) {
                   ))}
                 </div>
 
-                <div className="flex-1 min-h-0">
-                  <div className="h-full min-h-0 grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-4">
-                    <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0] h-full overflow-hidden flex flex-col">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-4">
+                  <div className="bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-semibold text-[#2a2a2a]">Employee Statistics</div>
+                        <div className="mt-1 text-xs text-[#5f5b56]">Monthly employee growth and hired employees.</div>
+                      </div>
+
+                      <div className="flex items-center gap-4 text-[11px] text-[#5f5b56]">
+                        <div className="flex items-center gap-2">
+                          <span className="h-3 w-3 rounded-full bg-[#f4ede4]" />
+                          <span>Total employees</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="h-3 w-3 rounded-full bg-[#8d6a3a]" />
+                          <span>Hired</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 h-[300px]">
+                      <div className="h-full flex items-end gap-3 overflow-x-auto pb-2">
+                        {monthlyEmployees.map((item) => {
+                          const totalHeight = Math.max((item.total / maxMonthlyTotal) * 220, 18);
+                          const hiredHeight = Math.max((item.hired / maxMonthlyTotal) * 220 * 5, 8);
+
+                          return (
+                            <div key={item.label} className="min-w-[52px] flex-1 flex flex-col items-center justify-end gap-2">
+                              <div className="h-[240px] w-full flex items-end justify-center gap-1.5">
+                                <div
+                                  className="w-5 rounded-full bg-[#f4ede4]"
+                                  style={{ height: `${totalHeight}px` }}
+                                  title={`${item.total} employees`}
+                                />
+                                <div
+                                  className="w-5 rounded-full bg-[#8d6a3a]"
+                                  style={{ height: `${hiredHeight}px` }}
+                                  title={`${item.hired} hired`}
+                                />
+                              </div>
+                              <div className="text-[11px] text-[#5f5b56]">{item.label}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden">
+                    <div>
+                      <div className="text-sm font-semibold text-[#2a2a2a]">Position Chart</div>
+                      <div className="mt-1 text-xs text-[#5f5b56]">Employee distribution by position.</div>
+                    </div>
+
+                    <div className="mt-5 space-y-4">
+                      {positionData.map((item) => (
+                        <div key={item.label}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="text-sm text-[#2a2a2a]">{item.label}</div>
+                            <div className="text-sm font-semibold text-[#2a2a2a]">{item.value}</div>
+                          </div>
+                          <div className="mt-2 h-2.5 w-full rounded-full bg-[#ece4d9] overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-[#8d6a3a]"
+                              style={{ width: `${(item.value / maxPositionValue) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-[#ece4d9] border border-[#d1c7ba] p-4">
+                        <div className="text-[11px] text-[#5f5b56]">Top Position</div>
+                        <div className="mt-1 text-base font-semibold text-[#2a2a2a]">Staff</div>
+                      </div>
+                      <div className="rounded-2xl bg-[#ece4d9] border border-[#d1c7ba] p-4">
+                        <div className="text-[11px] text-[#5f5b56]">Total Positions</div>
+                        <div className="mt-1 text-base font-semibold text-[#2a2a2a]">{positionData.length}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex-1 min-h-0 bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden flex flex-col">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                    <div>
+                      <div className="text-sm font-semibold text-[#2a2a2a]">Employee Attendees</div>
+                      <div className="mt-1 text-xs text-[#5f5b56]">Daily employee attendance monitoring.</div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="users" />
+                        </div>
                         <div>
-                          <div className="text-sm font-semibold text-[#2a2a2a]">Add Employee Data</div>
-                          <div className="mt-1 text-xs text-[#8a8a8a]">Fill out the employee information below.</div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Present</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.present}</div>
                         </div>
                       </div>
 
-                      <form id="add-employee-form" onSubmit={handleAddEmployee} className="mt-4 flex-1 min-h-0 overflow-auto pr-1">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-1">
-                          <div>
-                            <div className={labelBase}>Employee No.</div>
-                            <div className="relative">
-                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8a8a8a] select-none">
-                                EM-
-                              </span>
-                              <input
-                                value={employeeForm.employeeNo}
-                                onChange={setDigitsField("employeeNo")}
-                                inputMode="numeric"
-                                pattern="[0-9]*"
-                                className={`${inputBase} pl-12`}
-                                placeholder="0000"
-                              />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>First Name</div>
-                            <input value={employeeForm.firstName} onChange={setField("firstName")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Middle Name</div>
-                            <input value={employeeForm.middleName} onChange={setField("middleName")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Last Name</div>
-                            <input value={employeeForm.lastName} onChange={setField("lastName")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Birthdate</div>
-                            <div className="relative">
-                              <input type="date" value={employeeForm.birthdate} onChange={setField("birthdate")} className={dateBase} />
-                              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Age</div>
-                            <input value={age} readOnly className={`${inputBase} bg-[#fbfbfb]`} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Civil Status</div>
-                            <div className="relative">
-                              <select value={employeeForm.civilStatus} onChange={setField("civilStatus")} className={selectBase}>
-                                <option value="">Select</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Widowed">Widowed</option>
-                                <option value="Separated">Separated</option>
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Blood Type</div>
-                            <div className="relative">
-                              <select value={employeeForm.bloodType} onChange={setField("bloodType")} className={selectBase}>
-                                <option value="">Select</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div className="md:col-span-2 lg:col-span-3">
-                            <div className={labelBase}>Address</div>
-                            <input value={employeeForm.address} onChange={setField("address")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Contact Number</div>
-                            <input
-                              value={employeeForm.contactNo}
-                              onChange={setDigitsField("contactNo")}
-                              inputMode="numeric"
-                              pattern="[0-9]*"
-                              className={inputBase}
-                              placeholder="09XXXXXXXXX"
-                            />
-                          </div>
-
-                          <div className="md:col-span-2 lg:col-span-3">
-                            <div className="h-px w-full bg-[#eeeeee] rounded-full my-1" />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Department</div>
-                            <div className="relative">
-                              <select value={employeeForm.department} onChange={setDepartment} className={selectBase}>
-                                <option value="">Select</option>
-                                {DEPARTMENTS.map((d) => (
-                                  <option key={d} value={d}>
-                                    {d}
-                                  </option>
-                                ))}
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Outlet</div>
-                            <div className="relative">
-                              <select
-                                value={employeeForm.outlet}
-                                onChange={setField("outlet")}
-                                className={`${selectBase} ${!employeeForm.department ? "bg-[#fbfbfb] text-[#9b9b9b]" : ""}`}
-                                disabled={!employeeForm.department}
-                              >
-                                <option value="">{employeeForm.department ? "Select" : "Select Department first"}</option>
-                                {outletOptions.map((o) => (
-                                  <option key={o} value={o}>
-                                    {o}
-                                  </option>
-                                ))}
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Position</div>
-                            <div className="relative">
-                              <select value={employeeForm.position} onChange={setField("position")} className={selectBase}>
-                                <option value="">Select</option>
-                                {POSITIONS.map((p) => (
-                                  <option key={p} value={p}>
-                                    {p}
-                                  </option>
-                                ))}
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Employment Status</div>
-                            <div className="relative">
-                              <select
-                                value={employeeForm.employmentStatus}
-                                onChange={setField("employmentStatus")}
-                                className={selectBase}
-                              >
-                                <option value="">Select</option>
-                                {EMPLOYMENT_STATUSES.map((s) => (
-                                  <option key={s} value={s}>
-                                    {s}
-                                  </option>
-                                ))}
-                              </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Date Hired</div>
-                            <div className="relative">
-                              <input type="date" value={employeeForm.dateHired} onChange={setField("dateHired")} className={dateBase} />
-                              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9b9b9b] pointer-events-none" />
-                            </div>
-                          </div>
-
-                          <div className="md:col-span-2 lg:col-span-3">
-                            <div className="h-px w-full bg-[#eeeeee] rounded-full my-1" />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>SSS</div>
-                            <input value={employeeForm.sss} onChange={setField("sss")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>PhilHealth</div>
-                            <input value={employeeForm.philHealth} onChange={setField("philHealth")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Pag-Ibig</div>
-                            <input value={employeeForm.pagIbig} onChange={setField("pagIbig")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>TIN</div>
-                            <input value={employeeForm.tin} onChange={setField("tin")} className={inputBase} />
-                          </div>
-
-                          <div>
-                            <div className={labelBase}>Salary Rate</div>
-                            <input
-                              type="number"
-                              step="0.01"
-                              value={employeeForm.salaryRate}
-                              onChange={setField("salaryRate")}
-                              className={inputBase}
-                            />
-                          </div>
-
-                          <div className="md:col-span-2 lg:col-span-3 flex justify-end gap-2 pt-2">
-                            <button
-                              type="button"
-                              onClick={handleClear}
-                              className="h-9 px-4 rounded-xl border border-[#e7e7e7] bg-white text-sm text-[#2a2a2a] hover:bg-[#fafafa]"
-                            >
-                              Clear
-                            </button>
-                            <button
-                              type="submit"
-                              className="h-9 px-4 rounded-xl bg-[#8d6a3a] text-white text-sm font-medium hover:opacity-95"
-                            >
-                              Add Employee
-                            </button>
-                          </div>
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="clock" />
                         </div>
-                      </form>
-                    </div>
+                        <div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Late</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.late}</div>
+                        </div>
+                      </div>
 
-                    <div className="bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0] h-full overflow-hidden">
-                      <CalendarPanel />
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="userMinus" />
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Absent</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.absent}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex-1 min-h-0 overflow-auto">
+                    <div className="min-w-[760px]">
+                      <div className="grid grid-cols-[1.4fr_1.1fr_1fr_1fr_1fr_0.9fr] gap-3 px-4 py-3 rounded-2xl bg-[#ece4d9] text-[11px] font-medium text-[#5f5b56]">
+                        <div>Employee</div>
+                        <div>Department</div>
+                        <div>Position</div>
+                        <div>Time In</div>
+                        <div>Time Out</div>
+                        <div>Status</div>
+                      </div>
+
+                      <div className="mt-2 space-y-2">
+                        {attendanceData.map((item) => (
+                          <div
+                            key={`${item.name}-${item.department}`}
+                            className="grid grid-cols-[1.4fr_1.1fr_1fr_1fr_1fr_0.9fr] gap-3 items-center px-4 py-3 rounded-2xl border border-[#d1c7ba] bg-[#f6f1ea]"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="h-10 w-10 rounded-full bg-[#e5dbcd] grid place-items-center text-sm font-semibold text-[#8d6a3a]">
+                                {item.name
+                                  .split(" ")
+                                  .slice(0, 2)
+                                  .map((part) => part[0])
+                                  .join("")}
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-sm font-medium text-[#2a2a2a] truncate">{item.name}</div>
+                              </div>
+                            </div>
+
+                            <div className="text-sm text-[#4a4a4a]">{item.department}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.position}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.timeIn}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.timeOut}</div>
+                            <div>
+                              <StatusBadge status={item.status} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -117,8 +117,8 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
 
   const safeBrand = useMemo(
     () => ({
-      logoSrc: brand?.logoSrc || "/Logo.jpg",
-      name: brand?.name || "L'Fisher Hotel",
+      logoSrc: brand?.logoSrc || "/recruitment.png",
+      name: brand?.name || "Human Resources Information System",
       sub: brand?.sub || "Staff & Admin",
     }),
     [brand]
