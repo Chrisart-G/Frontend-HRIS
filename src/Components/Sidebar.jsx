@@ -34,43 +34,6 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
         </svg>
       );
 
-    if (name === "calendar")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M8 3v3M16 3v3" />
-          <path {...stroke} d="M4.5 8.5h15" />
-          <path
-            {...stroke}
-            d="M6 5.5h12a2.5 2.5 0 0 1 2.5 2.5v11A2.5 2.5 0 0 1 18 21.5H6A2.5 2.5 0 0 1 3.5 19V8A2.5 2.5 0 0 1 6 5.5Z"
-          />
-          <path {...stroke} d="M7.5 12h2M11 12h2M14.5 12h2" />
-          <path {...stroke} d="M7.5 15.5h2M11 15.5h2M14.5 15.5h2" />
-        </svg>
-      );
-
-    if (name === "bed")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M4 12V7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5V12" />
-          <path {...stroke} d="M4 12h16" />
-          <path {...stroke} d="M4 12v5.5M20 12v5.5" />
-          <path {...stroke} d="M6 10.5h4a1.5 1.5 0 0 1 1.5 1.5V12H4v-0.5A1 1 0 0 1 5 10.5h1Z" />
-          <path {...stroke} d="M13.5 10.5H19a1 1 0 0 1 1 1V12h-6.5v-0.5a1 1 0 0 1 0-1Z" />
-        </svg>
-      );
-
-    if (name === "chat")
-      return (
-        <svg {...common} className={className}>
-          <path
-            {...stroke}
-            d="M7.5 18.5H7l-3.5 2v-3A4.5 4.5 0 0 1 8 3.5h8A4.5 4.5 0 0 1 20.5 8v4A4.5 4.5 0 0 1 16 16.5H10"
-          />
-          <path {...stroke} d="M8.5 9.5h7" />
-          <path {...stroke} d="M8.5 12.5h4.5" />
-        </svg>
-      );
-
     if (name === "id")
       return (
         <svg {...common} className={className}>
@@ -82,17 +45,6 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
           <path {...stroke} d="M8 12.5h8" />
           <path {...stroke} d="M8 16h6" />
           <path {...stroke} d="M15.75 9.25h0.01" />
-        </svg>
-      );
-
-    if (name === "gear")
-      return (
-        <svg {...common} className={className}>
-          <path {...stroke} d="M12 14.75a2.75 2.75 0 1 0 0-5.5 2.75 2.75 0 0 0 0 5.5Z" />
-          <path
-            {...stroke}
-            d="M19.4 13.5a7.8 7.8 0 0 0 .06-1.5 7.8 7.8 0 0 0-.06-1.5l2.05-1.6-2-3.46-2.5 1a7.7 7.7 0 0 0-2.6-1.5L12 2.5 9.65 4.94a7.7 7.7 0 0 0-2.6 1.5l-2.5-1-2 3.46 2.05 1.6A7.8 7.8 0 0 0 4.54 12c0 .5.04 1 .1 1.5l-2.05 1.6 2 3.46 2.5-1a7.7 7.7 0 0 0 2.6 1.5L12 21.5l2.35-2.44a7.7 7.7 0 0 0 2.6-1.5l2.5 1 2-3.46-2.05-1.6Z"
-          />
         </svg>
       );
 
@@ -136,15 +88,6 @@ function Sidebar({ brand, navItems, active, setActive, onLogout }) {
           { key: "manpower", label: "Manpower", icon: "id" },
         ],
       },
-      { key: "departments_outlets", label: "Department", icon: "gear" },
-      { key: "positions", label: "Positions", icon: "id" },
-      { key: "resignees", label: "Resignees", icon: "calendar" },
-      { key: "hirees", label: "Hirees", icon: "chat" },
-      { key: "attrition_summary", label: "Attrition Summary", icon: "bed" },
-      { key: "awards_history", label: "Awards and History", icon: "chat" },
-      { key: "birthday_calendar", label: "Birthday Calendar", icon: "calendar" },
-      { key: "manpower_chart", label: "Manpower Chart", icon: "calendar" },
-      { key: "employee_number", label: "Employee Number", icon: "id" },
     ],
     []
   );
