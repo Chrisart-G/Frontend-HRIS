@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Navigation from "../Components/Navigation";
 
-function Dashboard({ onLogout }) {
+function Dashboard({ onLogout, setCurrentPage }) {
   const BRAND = useMemo(
     () => ({
       logoSrc: "/recruitment.png",
@@ -23,6 +23,12 @@ function Dashboard({ onLogout }) {
 
   const [active, setActive] = useState("dashboard");
   const [q, setQ] = useState("");
+
+  useEffect(() => {
+    if (active === "employees") {
+      setCurrentPage("employees");
+    }
+  }, [active, setCurrentPage]);
 
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
