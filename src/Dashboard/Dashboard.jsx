@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Navigation from "../Components/Navigation";
 
-function Dashboard({ onLogout }) {
+function Dashboard({ onLogout, setCurrentPage }) {
   const BRAND = useMemo(
     () => ({
-      logoSrc: "/Logo.jpg",
-      name: "L'Fisher Hotel",
+      logoSrc: "/recruitment.png",
+      name: "Human Resources Information System",
       sub: "Staff & Admin",
     }),
     []
@@ -15,135 +15,8 @@ function Dashboard({ onLogout }) {
   const navItems = useMemo(
     () => [
       { key: "dashboard", label: "Dashboard", icon: "grid" },
-      { key: "guest", label: "Guest", icon: "users" },
-      { key: "reservations", label: "Reservations", icon: "calendar" },
-      { key: "rooms", label: "Rooms", icon: "bed" },
       { key: "message", label: "Message", icon: "chat" },
-      { key: "staff", label: "Staff", icon: "id" },
       { key: "setting", label: "Setting", icon: "gear" },
-    ],
-    []
-  );
-
-  const cards = useMemo(
-    () => [
-      { label: "New Bookings", value: "604", trend: "+8.70%", trendUp: true, icon: "ticket" },
-      { label: "Check In", value: "405", trend: "+8.70%", trendUp: true, icon: "in" },
-      { label: "Check Out", value: "333", trend: "-8.70%", trendUp: false, icon: "out" },
-      { label: "Total Revenue", value: "₱13,400,000", trend: "+8.70%", trendUp: true, icon: "money" },
-    ],
-    []
-  );
-
-  const ratings = useMemo(
-    () => [
-      { label: "Facilities", value: 4.1 },
-      { label: "Services", value: 4.9 },
-      { label: "Comfort", value: 4.5 },
-      { label: "Location", value: 4.3 },
-    ],
-    []
-  );
-
-  const reservationByMonth = useMemo(
-    () => [
-      { m: "January", v: 186 },
-      { m: "February", v: 305 },
-      { m: "March", v: 237 },
-      { m: "April", v: 73 },
-      { m: "May", v: 209 },
-      { m: "June", v: 214 },
-    ],
-    []
-  );
-
-  const bookingByPlatform = useMemo(
-    () => [
-      { label: "Direct Booking", value: 275, color: "#1f1a12" },
-      { label: "Bookin.web", value: 200, color: "#dcd4c8" },
-      { label: "AirBnb", value: 187, color: "#8d6a3a" },
-      { label: "Others", value: 173, color: "#b7a58a" },
-      { label: "Agonda", value: 90, color: "#6b5435" },
-    ],
-    []
-  );
-
-  const roomAvailability = useMemo(
-    () => ({
-      occupied: 350,
-      available: 14,
-      notAvailable: 55,
-      pending: 80,
-      segments: [
-        { label: "Occupied", w: 62, c: "#8d6a3a" },
-        { label: "Available", w: 15, c: "#dcd4c8" },
-        { label: "Not Available", w: 4, c: "#1f1a12" },
-        { label: "Pending", w: 19, c: "#b7a58a" },
-      ],
-    }),
-    []
-  );
-
-  const bookingList = useMemo(
-    () => [
-      {
-        id: "GA-334567",
-        guest: "Solo Samson",
-        roomType: "Standard",
-        roomNo: "Room 333",
-        duration: "6 Nights",
-        dates: "May 10, 2025 - May 16, 2025",
-        status: "Checked-In",
-        statusTone: "green",
-      },
-      {
-        id: "GA-334568",
-        guest: "Mia Santos",
-        roomType: "Deluxe",
-        roomNo: "Room 210",
-        duration: "2 Nights",
-        dates: "May 11, 2025 - May 13, 2025",
-        status: "Checked-Out",
-        statusTone: "red",
-      },
-      {
-        id: "GA-334569",
-        guest: "Ken Dela Cruz",
-        roomType: "Standard",
-        roomNo: "Room 118",
-        duration: "1 Night",
-        dates: "May 12, 2025 - May 13, 2025",
-        status: "Pending",
-        statusTone: "amber",
-      },
-      {
-        id: "GA-334570",
-        guest: "Alyssa Reyes",
-        roomType: "Suite",
-        roomNo: "Room 501",
-        duration: "3 Nights",
-        dates: "May 12, 2025 - May 15, 2025",
-        status: "Checked-In",
-        statusTone: "green",
-      },
-    ],
-    []
-  );
-
-  const tasks = useMemo(
-    () => [
-      {
-        date: "May 20th 2025",
-        title: "Front desk shift handover",
-        body:
-          "Review arrivals, pending requests, and VIP notes. Confirm keys, cash float, and open tickets before turnover.",
-      },
-      {
-        date: "May 20th 2025",
-        title: "Room inspection follow-up",
-        body:
-          "Recheck rooms flagged for maintenance. Update status and notify housekeeping for final touches.",
-      },
     ],
     []
   );
@@ -151,329 +24,355 @@ function Dashboard({ onLogout }) {
   const [active, setActive] = useState("dashboard");
   const [q, setQ] = useState("");
 
-  const maxMonth = Math.max(...reservationByMonth.map((x) => x.v));
-  const overall = (ratings.reduce((a, r) => a + r.value, 0) / ratings.length).toFixed(1);
-
-  const pieStyle = useMemo(() => {
-    const total = bookingByPlatform.reduce((a, b) => a + b.value, 0);
-    let acc = 0;
-    const stops = bookingByPlatform
-      .map((p) => {
-        const from = (acc / total) * 360;
-        acc += p.value;
-        const to = (acc / total) * 360;
-        return `${p.color} ${from}deg ${to}deg`;
-      })
-      .join(", ");
-    return { background: `conic-gradient(${stops})` };
-  }, [bookingByPlatform]);
+  useEffect(() => {
+    if (active === "employees") {
+      setCurrentPage("employees");
+    }
+  }, [active, setCurrentPage]);
 
   const Icon = ({ name, className = "" }) => {
     const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none" };
     const stroke = { stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
-    if (name === "ticket")
+
+    if (name === "users")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 7h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4Z" />
-          <path {...stroke} d="M9 7v12" />
+          <path {...stroke} d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="9" cy="7" r="4" />
+          <path {...stroke} d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path {...stroke} d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       );
-    if (name === "in")
+
+    if (name === "building")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M4 12h10" />
-          <path {...stroke} d="M10 8l4 4-4 4" />
-          <path {...stroke} d="M20 5v14" />
+          <path {...stroke} d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
+          <path {...stroke} d="M4 22h16" />
+          <path {...stroke} d="M9 6h2" />
+          <path {...stroke} d="M13 6h2" />
+          <path {...stroke} d="M9 10h2" />
+          <path {...stroke} d="M13 10h2" />
+          <path {...stroke} d="M9 14h2" />
+          <path {...stroke} d="M13 14h2" />
+          <path {...stroke} d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4" />
         </svg>
       );
-    if (name === "out")
+
+    if (name === "userPlus")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M14 12H4" />
-          <path {...stroke} d="M8 8l-4 4 4 4" />
-          <path {...stroke} d="M20 5v14" />
+          <path {...stroke} d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="8.5" cy="7" r="4" />
+          <path {...stroke} d="M20 8v6" />
+          <path {...stroke} d="M17 11h6" />
         </svg>
       );
-    if (name === "money")
+
+    if (name === "userMinus")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M3 7h18v10H3z" />
-          <path {...stroke} d="M7 7a4 4 0 0 0 0 10" />
-          <path {...stroke} d="M17 7a4 4 0 0 1 0 10" />
-          <path {...stroke} d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+          <path {...stroke} d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle {...stroke} cx="8.5" cy="7" r="4" />
+          <path {...stroke} d="M17 11h6" />
         </svg>
       );
-    if (name === "plus")
+
+    if (name === "clock")
       return (
         <svg {...common} className={className}>
-          <path {...stroke} d="M12 5v14" />
-          <path {...stroke} d="M5 12h14" />
+          <circle {...stroke} cx="12" cy="12" r="9" />
+          <path {...stroke} d="M12 7v5l3 2" />
         </svg>
       );
+
     return null;
   };
 
-  const statusPill = (tone, text) => {
+  const counts = useMemo(() => {
+    const employees = 1340;
+    const departments = 14;
+    const hirees = 36;
+    const resignees = 8;
+    return { employees, departments, hirees, resignees };
+  }, []);
+
+  const statCards = useMemo(
+    () => [
+      { label: "Employees", value: counts.employees, icon: "users" },
+      { label: "Departments", value: counts.departments, icon: "building" },
+      { label: "Hirees", value: counts.hirees, icon: "userPlus" },
+      { label: "Resignees", value: counts.resignees, icon: "userMinus" },
+    ],
+    [counts]
+  );
+
+  const monthlyEmployees = useMemo(
+    () => [
+      { label: "Jan", total: 980, hired: 22 },
+      { label: "Feb", total: 1015, hired: 18 },
+      { label: "Mar", total: 1048, hired: 27 },
+      { label: "Apr", total: 1082, hired: 24 },
+      { label: "May", total: 1118, hired: 30 },
+      { label: "Jun", total: 1155, hired: 19 },
+      { label: "Jul", total: 1192, hired: 33 },
+      { label: "Aug", total: 1230, hired: 29 },
+      { label: "Sep", total: 1268, hired: 26 },
+      { label: "Oct", total: 1294, hired: 21 },
+      { label: "Nov", total: 1316, hired: 17 },
+      { label: "Dec", total: 1340, hired: 23 },
+    ],
+    []
+  );
+
+  const positionData = useMemo(
+    () => [
+      { label: "Manager", value: 64 },
+      { label: "Supervisor", value: 118 },
+      { label: "Staff", value: 892 },
+      { label: "Trainee", value: 176 },
+      { label: "Intern", value: 90 },
+    ],
+    []
+  );
+
+  const attendanceData = useMemo(
+    () => [
+      { name: "John Smith", department: "Front Office", position: "Manager", timeIn: "08:00 AM", timeOut: "05:00 PM", status: "Present" },
+      { name: "Helga Miller", department: "Human Resources", position: "Supervisor", timeIn: "08:03 AM", timeOut: "05:02 PM", status: "Present" },
+      { name: "Jacob Bold", department: "Finance", position: "Staff", timeIn: "08:14 AM", timeOut: "05:00 PM", status: "Late" },
+      { name: "Anna Walker", department: "Housekeeping", position: "Staff", timeIn: "07:56 AM", timeOut: "05:01 PM", status: "Present" },
+      { name: "Michael Brown", department: "Security", position: "Supervisor", timeIn: "08:22 AM", timeOut: "05:00 PM", status: "Late" },
+      { name: "Elena Harris", department: "Sales & Marketing", position: "Staff", timeIn: "—", timeOut: "—", status: "Absent" },
+    ],
+    []
+  );
+
+  const maxMonthlyTotal = useMemo(() => Math.max(...monthlyEmployees.map((item) => item.total)), [monthlyEmployees]);
+  const maxPositionValue = useMemo(() => Math.max(...positionData.map((item) => item.value)), [positionData]);
+
+  const attendanceSummary = useMemo(() => {
+    const present = attendanceData.filter((item) => item.status === "Present").length;
+    const late = attendanceData.filter((item) => item.status === "Late").length;
+    const absent = attendanceData.filter((item) => item.status === "Absent").length;
+    return { present, late, absent };
+  }, [attendanceData]);
+
+  const StatusBadge = ({ status }) => {
     const map = {
-      green: "bg-[#e7f5ec] text-[#2f7a48]",
-      red: "bg-[#fde8e8] text-[#b42318]",
-      amber: "bg-[#fff4e5] text-[#b35c00]",
+      Present: "bg-[#ebe5dc] text-[#8d6a3a]",
+      Late: "bg-[#f3ece3] text-[#8d6a3a]",
+      Absent: "bg-[#f7f3ee] text-[#8d6a3a]",
     };
-    return (
-      <span className={`px-3 py-1 rounded-full text-[11px] font-semibold ${map[tone] || "bg-[#f2f2f2] text-[#666]"}`}>
-        {text}
-      </span>
-    );
+
+    return <span className={`inline-flex items-center justify-center min-w-[74px] h-7 px-3 rounded-full text-xs font-medium ${map[status]}`}>{status}</span>;
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#eef1f5]">
-      <div className="min-h-screen w-full bg-white">
-        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-screen">
+    <div className="h-screen w-full bg-[#eef1f5] overflow-hidden">
+      <div className="h-full w-full bg-white overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] h-full">
           <Sidebar brand={BRAND} navItems={navItems} active={active} setActive={setActive} onLogout={onLogout} />
 
-          <main className="bg-[#f4f5f7] min-h-screen">
+          <main className="bg-[#f4f5f7] h-full overflow-hidden flex flex-col">
             <Navigation q={q} setQ={setQ} />
 
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {cards.map((c) => (
-                  <div
-                    key={c.label}
-                    className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]"
-                  >
-                    <div className="flex items-start justify-between">
+            <div className="flex-1 min-h-0 p-5 overflow-hidden">
+              <div className="h-full flex flex-col gap-4 min-h-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {statCards.map((c) => (
+                    <div
+                      key={c.label}
+                      className="bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="text-[11px] text-[#7a7a7a]">{c.label}</div>
+                          <div className="mt-1 text-2xl font-semibold text-[#2a2a2a] leading-tight">{c.value}</div>
+                        </div>
+                        <div className="h-8 w-8 rounded-xl border border-[#ece7df] bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name={c.icon} />
+                        </div>
+                      </div>
+                      <div className="mt-2 text-[10px] text-[#9b9b9b]">
+                        Updated:{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }).format(new Date())}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-4">
+                  <div className="bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden">
+                    <div className="flex items-center justify-between gap-3">
                       <div>
-                        <div className="text-xs text-[#7a7a7a]">{c.label}</div>
-                        <div className="mt-2 text-3xl font-semibold text-[#2a2a2a]">{c.value}</div>
+                        <div className="text-sm font-semibold text-[#2a2a2a]">Employee Statistics</div>
+                        <div className="mt-1 text-xs text-[#5f5b56]">Monthly employee growth and hired employees.</div>
                       </div>
-                      <div className="h-9 w-9 rounded-xl border border-[#ececec] bg-[#fbfbfb] grid place-items-center text-[#8d6a3a]">
-                        <Icon name={c.icon} />
+
+                      <div className="flex items-center gap-4 text-[11px] text-[#5f5b56]">
+                        <div className="flex items-center gap-2">
+                          <span className="h-3 w-3 rounded-full bg-[#f4ede4]" />
+                          <span>Total employees</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="h-3 w-3 rounded-full bg-[#8d6a3a]" />
+                          <span>Hired</span>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2">
-                      <span
-                        className={`px-2 py-1 rounded-full text-[11px] font-semibold ${
-                          c.trendUp ? "bg-[#e7f5ec] text-[#2f7a48]" : "bg-[#fde8e8] text-[#b42318]"
-                        }`}
-                      >
-                        {c.trend}
-                      </span>
-                      <span className="text-[11px] text-[#9b9b9b]">From last week</span>
+                    <div className="mt-5 h-[300px]">
+                      <div className="h-full flex items-end gap-3 overflow-x-auto pb-2">
+                        {monthlyEmployees.map((item) => {
+                          const totalHeight = Math.max((item.total / maxMonthlyTotal) * 220, 18);
+                          const hiredHeight = Math.max((item.hired / maxMonthlyTotal) * 220 * 5, 8);
+
+                          return (
+                            <div key={item.label} className="min-w-[52px] flex-1 flex flex-col items-center justify-end gap-2">
+                              <div className="h-[240px] w-full flex items-end justify-center gap-1.5">
+                                <div
+                                  className="w-5 rounded-full bg-[#f4ede4]"
+                                  style={{ height: `${totalHeight}px` }}
+                                  title={`${item.total} employees`}
+                                />
+                                <div
+                                  className="w-5 rounded-full bg-[#8d6a3a]"
+                                  style={{ height: `${hiredHeight}px` }}
+                                  title={`${item.hired} hired`}
+                                />
+                              </div>
+                              <div className="text-[11px] text-[#5f5b56]">{item.label}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                ))}
 
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-start justify-between">
+                  <div className="bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden">
                     <div>
-                      <div className="text-xs text-[#7a7a7a]">Overall Rating</div>
-                      <div className="mt-2 flex items-center gap-2">
-                        <div className="text-3xl font-semibold text-[#2a2a2a]">{overall}</div>
-                        <div className="text-[11px] px-2 py-1 rounded-full bg-[#f6f2ec] text-[#8d6a3a] font-semibold">
-                          / 5
-                        </div>
-                      </div>
+                      <div className="text-sm font-semibold text-[#2a2a2a]">Position Chart</div>
+                      <div className="mt-1 text-xs text-[#5f5b56]">Employee distribution by position.</div>
                     </div>
-                    <div className="text-[11px] px-2 py-1 rounded-full bg-[#f6f6f6] border border-[#ececec] text-[#6b6b6b] font-semibold">
-                      {overall}
-                    </div>
-                  </div>
 
-                  <div className="mt-4 space-y-2">
-                    {ratings.map((r) => {
-                      const pct = Math.min(100, Math.max(0, (r.value / 5) * 100));
-                      return (
-                        <div key={r.label} className="flex items-center gap-3">
-                          <div className="w-20.5 text-[11px] text-[#7a7a7a]">{r.label}</div>
-                          <div className="flex-1 h-2 rounded-full bg-[#f0f0f0] overflow-hidden">
-                            <div className="h-full bg-[#8d6a3a]" style={{ width: `${pct}%` }} />
+                    <div className="mt-5 space-y-4">
+                      {positionData.map((item) => (
+                        <div key={item.label}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="text-sm text-[#2a2a2a]">{item.label}</div>
+                            <div className="text-sm font-semibold text-[#2a2a2a]">{item.value}</div>
                           </div>
-                          <div className="w-8 text-[11px] text-[#6b6b6b] font-medium">{r.value.toFixed(1)}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Reservation</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">By months</div>
-
-                  <div className="mt-5 space-y-3">
-                    {reservationByMonth.map((m) => (
-                      <div key={m.m} className="flex items-center gap-3">
-                        <div className="w-17.5 text-[11px] text-[#7a7a7a]">{m.m}</div>
-                        <div className="flex-1 h-7 rounded-lg bg-[#f3f3f3] overflow-hidden">
-                          <div
-                            className="h-full rounded-lg bg-[#dcd4c8]"
-                            style={{ width: `${(m.v / maxMonth) * 100}%` }}
-                          />
-                        </div>
-                        <div className="w-10 text-right text-[11px] text-[#6b6b6b] font-medium">{m.v}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 text-[11px] text-[#6b6b6b]">
-                    <span className="font-semibold">Trending up by 5.2%</span> this month ↗
-                    <div className="text-[#9b9b9b] mt-1">Showing total visitors for the last 6 months</div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Booking</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">By Platform</div>
-
-                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-6 items-center">
-                    <div className="mx-auto h-42.5 w-42.5 rounded-full" style={pieStyle} />
-                    <div className="space-y-2">
-                      {bookingByPlatform.map((p) => (
-                        <div key={p.label} className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 rounded-full" style={{ background: p.color }} />
-                            <span className="text-[11px] text-[#7a7a7a]">{p.label}</span>
+                          <div className="mt-2 h-2.5 w-full rounded-full bg-[#ece4d9] overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-[#8d6a3a]"
+                              style={{ width: `${(item.value / maxPositionValue) * 100}%` }}
+                            />
                           </div>
-                          <span className="text-[11px] text-[#6b6b6b] font-medium">{p.value}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
 
-                  <div className="mt-5 text-center text-[11px] text-[#6b6b6b]">
-                    <span className="font-semibold">Trending up by 5.2%</span> this month ↗
-                    <div className="text-[#9b9b9b] mt-1">Showing total visitors for the last 6 months</div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="text-sm font-semibold text-[#2a2a2a]">Room Availability</div>
-                  <div className="text-xs text-[#7a7a7a] mt-1">Recent</div>
-
-                  <div className="mt-5 h-12 rounded-2xl bg-[#f3f3f3] overflow-hidden flex">
-                    {roomAvailability.segments.map((s) => (
-                      <div key={s.label} style={{ width: `${s.w}%`, background: s.c }} />
-                    ))}
-                  </div>
-
-                  <div className="mt-5 grid grid-cols-2 gap-4">
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#8d6a3a]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Occupied</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.occupied}</div>
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-[#ece4d9] border border-[#d1c7ba] p-4">
+                        <div className="text-[11px] text-[#5f5b56]">Top Position</div>
+                        <div className="mt-1 text-base font-semibold text-[#2a2a2a]">Staff</div>
                       </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#dcd4c8]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Available</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.available}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#b7a58a]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Pending</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.pending}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="mt-1 h-7 w-1.5 rounded-full bg-[#1f1a12]" />
-                      <div>
-                        <div className="text-[11px] text-[#7a7a7a]">Not Available</div>
-                        <div className="text-2xl font-semibold text-[#2a2a2a]">{roomAvailability.notAvailable}</div>
+                      <div className="rounded-2xl bg-[#ece4d9] border border-[#d1c7ba] p-4">
+                        <div className="text-[11px] text-[#5f5b56]">Total Positions</div>
+                        <div className="mt-1 text-base font-semibold text-[#2a2a2a]">{positionData.length}</div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4">
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-sm font-semibold text-[#2a2a2a]">Booking List</div>
-                    <div className="flex items-center gap-2">
-                      <div className="hidden sm:flex items-center gap-2 bg-[#f6f6f6] border border-[#ececec] rounded-full px-4 h-9 w-60">
-                        <input
-                          placeholder="Search"
-                          className="w-full bg-transparent outline-none text-sm text-[#2a2a2a] placeholder:text-[#9b9b9b]"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        className="h-9 rounded-full border border-[#ececec] bg-[#fbfbfb] px-4 text-sm text-[#6b6b6b] hover:bg-[#f7f7f7] cursor-pointer"
-                      >
-                        All Status
-                      </button>
+                <div className="flex-1 min-h-0 bg-[#d9d1c6] rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#d1c7ba] overflow-hidden flex flex-col">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                    <div>
+                      <div className="text-sm font-semibold text-[#2a2a2a]">Employee Attendees</div>
+                      <div className="mt-1 text-xs text-[#5f5b56]">Daily employee attendance monitoring.</div>
                     </div>
-                  </div>
 
-                  <div className="mt-4 overflow-x-auto">
-                    <table className="w-full min-w-190 text-left">
-                      <thead>
-                        <tr className="text-[11px] text-[#8a8a8a]">
-                          <th className="py-3 font-semibold">Booking ID</th>
-                          <th className="py-3 font-semibold">Guest Name</th>
-                          <th className="py-3 font-semibold">Room Type</th>
-                          <th className="py-3 font-semibold">Room Number</th>
-                          <th className="py-3 font-semibold">Duration</th>
-                          <th className="py-3 font-semibold">Check-in & Check-out</th>
-                          <th className="py-3 font-semibold text-right">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {bookingList.map((b) => (
-                          <tr key={b.id} className="border-t border-[#f1f1f1] text-sm">
-                            <td className="py-4 text-[#6b6b6b] font-medium">{b.id}</td>
-                            <td className="py-4 text-[#2a2a2a]">{b.guest}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.roomType}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.roomNo}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.duration}</td>
-                            <td className="py-4 text-[#6b6b6b]">{b.dates}</td>
-                            <td className="py-4 text-right">{statusPill(b.statusTone, b.status)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.06)] border border-[#f0f0f0]">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-[#2a2a2a]">Task</div>
-                    <button
-                      type="button"
-                      className="h-9 w-9 rounded-xl border border-[#ececec] bg-[#fbfbfb] hover:bg-[#f7f7f7] grid place-items-center cursor-pointer"
-                      aria-label="Add task"
-                    >
-                      <Icon name="plus" className="text-[#6b6b6b]" />
-                    </button>
-                  </div>
-
-                  <div className="mt-4 space-y-4">
-                    {tasks.map((t, i) => (
-                      <div key={i} className="flex gap-3">
-                        <div className="flex flex-col items-center pt-1">
-                          <span className="h-3 w-3 rounded-full bg-[#e7e0d6] border border-[#d9d2c8]" />
-                          <span className="w-px flex-1 bg-[#eee7df]" />
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="users" />
                         </div>
-                        <div className="flex-1 rounded-2xl bg-[#f6f2ec] border border-[#efe7dd] p-4">
-                          <div className="text-[11px] text-[#7a7a7a] font-medium">{t.date}</div>
-                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a]">{t.title}</div>
-                          <div className="mt-2 text-[12px] leading-relaxed text-[#6b6b6b]">{t.body}</div>
-                          <button
-                            type="button"
-                            className="mt-2 text-[12px] font-semibold text-[#8d6a3a] hover:text-[#7c5d32] cursor-pointer"
+                        <div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Present</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.present}</div>
+                        </div>
+                      </div>
+
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="clock" />
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Late</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.late}</div>
+                        </div>
+                      </div>
+
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-[#ece4d9] border border-[#d1c7ba] px-3 h-10">
+                        <div className="h-8 w-8 rounded-lg bg-[#f6f1ea] grid place-items-center text-[#8d6a3a]">
+                          <Icon name="userMinus" />
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-[#5f5b56] leading-none">Absent</div>
+                          <div className="mt-1 text-sm font-semibold text-[#2a2a2a] leading-none">{attendanceSummary.absent}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex-1 min-h-0 overflow-auto">
+                    <div className="min-w-[760px]">
+                      <div className="grid grid-cols-[1.4fr_1.1fr_1fr_1fr_1fr_0.9fr] gap-3 px-4 py-3 rounded-2xl bg-[#ece4d9] text-[11px] font-medium text-[#5f5b56]">
+                        <div>Employee</div>
+                        <div>Department</div>
+                        <div>Position</div>
+                        <div>Time In</div>
+                        <div>Time Out</div>
+                        <div>Status</div>
+                      </div>
+
+                      <div className="mt-2 space-y-2">
+                        {attendanceData.map((item) => (
+                          <div
+                            key={`${item.name}-${item.department}`}
+                            className="grid grid-cols-[1.4fr_1.1fr_1fr_1fr_1fr_0.9fr] gap-3 items-center px-4 py-3 rounded-2xl border border-[#d1c7ba] bg-[#f6f1ea]"
                           >
-                            Read More
-                          </button>
-                        </div>
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="h-10 w-10 rounded-full bg-[#e5dbcd] grid place-items-center text-sm font-semibold text-[#8d6a3a]">
+                                {item.name
+                                  .split(" ")
+                                  .slice(0, 2)
+                                  .map((part) => part[0])
+                                  .join("")}
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-sm font-medium text-[#2a2a2a] truncate">{item.name}</div>
+                              </div>
+                            </div>
+
+                            <div className="text-sm text-[#4a4a4a]">{item.department}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.position}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.timeIn}</div>
+                            <div className="text-sm text-[#4a4a4a]">{item.timeOut}</div>
+                            <div>
+                              <StatusBadge status={item.status} />
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </div>
